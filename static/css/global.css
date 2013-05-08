@@ -4,3 +4,6 @@
     border-top: 1px solid #CCCCCC;
     padding-top: 10px;
 }
+.container .content textarea {
+    width: 80%;
+}

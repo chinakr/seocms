@@ -14,6 +14,7 @@ func (this *AdminController) Get() {
     switch action {
     case "add":
         this.Data["PageTitle"] = "添加文章_文章管理_SEOCMS"
+        this.Data["Categories"] = []string{"博客", "笔记"}
         this.TplNames = "admin/add_article.tpl"
     case "edit":
         this.Data["Id"] = this.Ctx.Params[":id"]

@@ -1,9 +1,17 @@
+/* 页尾居中(版权信息等) */
 .footer {
     text-align: center;
     margin-top: 10px;
     border-top: 1px solid #CCCCCC;
     padding-top: 10px;
 }
+
+/* 设置表单的文本区域的宽度 */
 .container .content textarea {
     width: 80%;
+}
+
+/* 管理按钮的间距 */
+.container td span.action {
+    margin-right: 10px;
 }

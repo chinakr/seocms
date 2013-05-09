@@ -9,26 +9,44 @@
 <script src="http://lib.sinaapp.com/js/jquery/1.9.1/jquery-1.9.1.min.js"></script>
 <script src="http://lib.sinaapp.com/js/bootstrap/latest/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="/static/css/global.css" />
+<script src="/static/js/global.js"></script>
 </head>
 <body>
 <div class="container">
-    <div class="row">
-        <div class="header">
-            <div class="navbar">
-                <div class="navbar-inner">
-                    <a class="brand" href="/admin/">SEOCMS文章管理</a>
-                </div>
-                <ul class="nav">
-                </ul>
-            </div><!-- End .navbar -->
-        </div><!-- End .header -->
-        <div class="content">
-            {{.LayoutContent}}
-        </div><!-- End .content -->
-        <div class="footer">
-            <p>&copy; 2013 Developed by <a href="http://weibo.com/chinakr" target="_blank">chinakr</a></p>
-        </div><!-- End .footer -->
-    </div><!-- End .row -->
+    <div class="header">
+        <div class="navbar">
+            <div class="navbar-inner">
+                <a class="brand" href="/article/list">SEOCMS后台管理</a>
+            </div>
+            <ul class="nav">
+            </ul>
+        </div><!-- End .navbar -->
+    </div><!-- End .header -->
+    <div class="content">
+        <div class="row">
+            <div class="sidebar span2">
+                <div class="well">
+                    <ul class="nav nav-list">
+                        <li class="nav-header">文章管理</li>
+                        <li class="article-list"><a href="/article/list">文章列表</a></li>
+                        <li class="add-article"><a href="/article/add">添加文章</a></li>
+                        <li class="nav-header">分类管理</li>
+                        <li class="category-list"><a href="/category/list">分类列表</a></li>
+                        <li class="add-category"><a href="/category/add">添加分类</a></li>
+                        <li class="nav-header">用户管理</li>
+                        <li class="user-list"><a href="/user/list">用户列表</a></li>
+                        <li class="add-user"><a href="/user/add">添加用户</a></li>
+                    </ul><!-- End .nav -->
+                </div><!-- End .well -->
+            </div><!-- End .sidebar -->
+            <div class="main span10">
+                {{.LayoutContent}}
+            </div><!-- End .main -->
+        </div><!-- End .row -->
+    </div><!-- End .content -->
+    <div class="footer">
+        <p>&copy; 2013 Developed by <a href="http://weibo.com/chinakr" target="_blank">chinakr</a></p>
+    </div><!-- End .footer -->
 </div><!-- End .container -->
 </body>
 </html>

@@ -1,12 +1,15 @@
 package controllers
 
 import (
+    //"github.com/astaxie/beedb"
     "github.com/astaxie/beego"
 )
 
 type AdminController struct {
     beego.Controller
 }
+
+var err error
 
 func (this *AdminController) Get() {
     this.Layout = "layout_admin.tpl"
@@ -60,5 +63,32 @@ func (this *AdminController) Get() {
 }
 
 func (this *AdminController) Post() {
-    this.Ctx.Redirect(302, "/article/list")
+    object := this.Ctx.Params[":object"]
+    if object == "article" {
+        this.Ctx.Redirect(302, "/article/list")
+    } else if object == "category" {
+        name := this.Input().Get("name")
+        nameEn := this.Input().Get("name_en")
+        description := this.Input().Get("description")
+        alias := this.Input().Get("alias")
+
+        orm := InitDb()
+        category := Category{}
+        err = orm.Where("name=?", name).Find(&category)
+        if err != nil {
+            orm = InitDb()
+        }
+
+        category.Name = name
+        category.NameEn = nameEn
+        category.Description = description
+        category.Alias = alias
+        //category.Alias = Str2slice(alias)
+        //Debug("%s, %s, %s, %v", name, nameEn, description, alias)
+        Debug("%s, %s, %s, %v", category.Name, category.NameEn, category.Description, category.Alias)
+        err = orm.Save(&category)
+        Check(err)
+
+        this.Ctx.Redirect(302, "/category/list")    // DEBUG
+    }
 }

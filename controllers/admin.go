@@ -43,7 +43,7 @@ func (this *AdminController) Get() {
         case "list":
             categories := []Category{}
             orm := InitDb()
-            err = orm.FindAll(&categories)
+            err = orm.OrderBy("name").FindAll(&categories)
             Check(err)
             this.Data["PageTitle"] = "分类列表_文章管理_SEOCMS"
             this.Data["Categories"] = categories

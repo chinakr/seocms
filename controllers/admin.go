@@ -41,11 +41,12 @@ func (this *AdminController) Get() {
     } else if object == "category" {
         switch action {
         case "list":
+            categories := []Category{}
+            orm := InitDb()
+            err = orm.FindAll(&categories)
+            Check(err)
             this.Data["PageTitle"] = "分类列表_文章管理_SEOCMS"
-            this.Data["Categories"] = []string{
-                "博客",
-                "笔记",
-            }
+            this.Data["Categories"] = categories
             this.TplNames = "admin/category_list.tpl"
         case "add":
             this.Data["PageTitle"] = "添加分类_文章管理_SEOCMS"

@@ -6,11 +6,11 @@
 </ul><!-- End .breadcrumb -->
 <table class="table table-striped table-hover category-list">
 <thead>
-    <tr><th>分类名称</th><th>管理</th></tr>
+    <tr><th>分类名称</th><th>英文名称</th><th>管理</th></tr>
 </thead>
 <tbody>
     {{range .Categories}}
-    <tr><td>{{.}}</td><td><span class="action"><a href="/category/edit/1">修改</a></span><span class="action"><a href="/category/delete/1">删除</a></span></td></tr>
+    <tr><td>{{.Name}}</td><td>{{.NameEn}}</td><td><span class="action"><a href="/category/edit/{{.Id}}">修改</a></span><span class="action"><a href="/category/delete/{{.Id}}">删除</a></span></td></tr>
     {{end}}
 </tbody>
 </table><!-- .category-list -->

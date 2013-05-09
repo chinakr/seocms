@@ -4,7 +4,7 @@
     <li><a href="/article/list">文章管理</a> <span class="divider">/</span>
     <li class="active">修改文章</li>
 </ul><!-- End .breadcrumb -->
-<form method="post" class="form-horizontal add-article">
+<form method="post" class="form-horizontal edit-article">
     <legend>修改文章</legend>
     <div class="control-group">
         <label class="control-label" for="title">文章标题</label>
@@ -48,7 +48,7 @@
     </div><!-- End .control-group -->
     <div class="control-group">
         <div class="controls">
-            <button type="submit" class="btn btn-primary">添加文章</button>
+            <button type="submit" class="btn btn-primary">修改文章</button>
         </div>
     </div>
-</form><!-- End .add-article -->
+</form><!-- End .edit-article -->

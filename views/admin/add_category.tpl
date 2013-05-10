@@ -6,7 +6,7 @@
 </ul><!-- End .breadcrumb -->
 <div class="alert">
     <button class="close" data-dismiss="alert" type="button">&times;</button>
-    {{.Message}}
+    <span>{{.Message}}</span>
 </div><!-- End .alert -->
 <form method="post" class="form-horizontal add-category">
     <legend>添加分类</legend>

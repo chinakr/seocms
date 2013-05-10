@@ -6,7 +6,7 @@ $(function() {
 
 // 没有提示信息时(包括空格和空行)，不显示提示信息框
 $(function() {
-    if ($('div.alert').text() == false) {
+    if ($('div.alert span').text() == false) {
         $('div.alert').hide();
     }
 });

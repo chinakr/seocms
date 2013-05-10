@@ -93,6 +93,7 @@ func (this *AdminController) Post() {
             description := this.Input().Get("description")
             alias := this.Input().Get("alias")
 
+            // 检查分类名称或分类英文名称是否为空
             if name == "" || nameEn == "" {
                 this.Data["Message"] = "分类名称或分类英文名称不能为空。"
                 this.Layout = "layout_admin.tpl"
@@ -100,11 +101,17 @@ func (this *AdminController) Post() {
                 return
             }
 
+            // 检查分类名称或分类英文名称是否已存在
             orm := InitDb()
             category := Category{}
-            err = orm.Where("name=?", name).Find(&category)
+            err = orm.Where("name=? or name_en=?", name, nameEn).Find(&category)
             if err != nil {
                 orm = InitDb()
+            } else {
+                this.Data["Message"] = "分类名称或分类英文名称已存在。"
+                this.Layout = "layout_admin.tpl"
+                this.TplNames = "admin/add_category.tpl"
+                return
             }
 
             category.Name = name

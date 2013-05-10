@@ -52,7 +52,15 @@ func (this *AdminController) Get() {
             this.Data["PageTitle"] = "添加分类_文章管理_SEOCMS"
             this.TplNames = "admin/add_category.tpl"
         case "edit":
-            this.Data["Id"] = this.Ctx.Params[":id"]
+            id := this.Ctx.Params[":id"]
+            //this.Data["Id"] = id
+
+            orm := InitDb()
+            category := Category{}
+            err = orm.Where("id=?", id).Find(&category)
+            Check(err)
+            this.Data["Category"] = category
+
             this.Data["PageTitle"] = "修改分类_文章管理_SEOCMS"
             this.TplNames = "admin/edit_category.tpl"
         case "delete":
@@ -65,31 +73,51 @@ func (this *AdminController) Get() {
 
 func (this *AdminController) Post() {
     object := this.Ctx.Params[":object"]
+    action := this.Ctx.Params[":action"]
     if object == "article" {
         this.Ctx.Redirect(302, "/article/list")
     } else if object == "category" {
-        name := this.Input().Get("name")
-        nameEn := this.Input().Get("name_en")
-        description := this.Input().Get("description")
-        alias := this.Input().Get("alias")
+        switch action {
+        case "add":    // 添加分类
+            name := this.Input().Get("name")
+            nameEn := this.Input().Get("name_en")
+            description := this.Input().Get("description")
+            alias := this.Input().Get("alias")
 
-        orm := InitDb()
-        category := Category{}
-        err = orm.Where("name=?", name).Find(&category)
-        if err != nil {
-            orm = InitDb()
+            orm := InitDb()
+            category := Category{}
+            err = orm.Where("name=?", name).Find(&category)
+            if err != nil {
+                orm = InitDb()
+            }
+
+            category.Name = name
+            category.NameEn = nameEn
+            category.Description = description
+            category.Alias = alias
+            //category.Alias = Str2slice(alias)
+            //Debug("%s, %s, %s, %v", name, nameEn, description, alias)
+            Debug("%s, %s, %s, %v", category.Name, category.NameEn, category.Description, category.Alias)
+            err = orm.Save(&category)
+            Check(err)
+
+            this.Ctx.Redirect(302, "/category/list")
+        case "edit":    // 修改分类
+            id := this.Ctx.Params[":id"]
+
+            orm := InitDb()
+            category := Category{}
+            err = orm.Where("id=?", id).Find(&category)
+            Check(err)
+
+            category.Name = this.Input().Get("name")
+            category.NameEn = this.Input().Get("name_en")
+            category.Description = this.Input().Get("description")
+            category.Alias = this.Input().Get("alias")
+            err = orm.Save(&category)
+            Check(err)
+
+            this.Ctx.Redirect(302, "/category/list")
         }
-
-        category.Name = name
-        category.NameEn = nameEn
-        category.Description = description
-        category.Alias = alias
-        //category.Alias = Str2slice(alias)
-        //Debug("%s, %s, %s, %v", name, nameEn, description, alias)
-        Debug("%s, %s, %s, %v", category.Name, category.NameEn, category.Description, category.Alias)
-        err = orm.Save(&category)
-        Check(err)
-
-        this.Ctx.Redirect(302, "/category/list")    // DEBUG
     }
 }

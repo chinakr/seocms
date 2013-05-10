@@ -1,7 +1,7 @@
 <input type="hidden" name="location" value="add-category" />
 <ul class="breadcrumb">
     <li><a href="/article/list">管理后台</a> <span class="divider">/</span></li>
-    <li><a href="/article/list">文章管理</a> <span class="divider">/</span>
+    <li><a href="/category/list">分类管理</a> <span class="divider">/</span>
     <li class="active">添加分类</li>
 </ul><!-- End .breadcrumb -->
 <form method="post" class="form-horizontal add-category">

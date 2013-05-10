@@ -1,7 +1,7 @@
 <input type="hidden" name="location" value="category-list" />
 <ul class="breadcrumb">
     <li><a href="/article/list">管理后台</a> <span class="divider">/</span></li>
-    <li><a href="/article/list">文章管理</a> <span class="divider">/</span>
+    <li><a href="/category/list">分类管理</a> <span class="divider">/</span>
     <li class="active">分类列表</li>
 </ul><!-- End .breadcrumb -->
 <table class="table table-striped table-hover category-list">

@@ -40,7 +40,7 @@ func (this *AdminController) Get() {
         }
     } else if object == "category" {
         switch action {
-        case "list":
+        case "list":    // 分类列表
             categories := []Category{}
             orm := InitDb()
             err = orm.OrderBy("name").FindAll(&categories)
@@ -48,10 +48,10 @@ func (this *AdminController) Get() {
             this.Data["PageTitle"] = "分类列表_文章管理_SEOCMS"
             this.Data["Categories"] = categories
             this.TplNames = "admin/category_list.tpl"
-        case "add":
+        case "add":    // 添加分类
             this.Data["PageTitle"] = "添加分类_文章管理_SEOCMS"
             this.TplNames = "admin/add_category.tpl"
-        case "edit":
+        case "edit":    // 修改分类
             id := this.Ctx.Params[":id"]
             //this.Data["Id"] = id
 
@@ -63,10 +63,19 @@ func (this *AdminController) Get() {
 
             this.Data["PageTitle"] = "修改分类_文章管理_SEOCMS"
             this.TplNames = "admin/edit_category.tpl"
-        case "delete":
-            this.Data["Id"] = this.Ctx.Params[":id"]
-            this.Data["PageTitle"] = "删除分类_文章管理_SEOCMS"
-            this.TplNames = "admin/delete_category.tpl"
+        case "delete":    // 删除分类
+            //this.Data["Id"] = this.Ctx.Params[":id"]
+            //this.Data["PageTitle"] = "删除分类_文章管理_SEOCMS"
+            //this.TplNames = "admin/delete_category.tpl"
+            id := this.Ctx.Params[":id"]
+
+            orm := InitDb()
+            category := Category{}
+            err = orm.Where("id=?", id).Find(&category)
+            Check(err)
+            orm.Delete(&category)
+
+            this.Ctx.Redirect(301, "/category/list")
         }
     }
 }
@@ -78,7 +87,7 @@ func (this *AdminController) Post() {
         this.Ctx.Redirect(302, "/article/list")
     } else if object == "category" {
         switch action {
-        case "add":    // 添加分类
+        case "add":    // 处理添加分类
             name := this.Input().Get("name")
             nameEn := this.Input().Get("name_en")
             description := this.Input().Get("description")
@@ -102,7 +111,7 @@ func (this *AdminController) Post() {
             Check(err)
 
             this.Ctx.Redirect(302, "/category/list")
-        case "edit":    // 修改分类
+        case "edit":    // 处理修改分类
             id := this.Ctx.Params[":id"]
 
             orm := InitDb()

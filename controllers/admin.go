@@ -20,11 +20,11 @@ func (this *AdminController) Get() {
         switch action {
         case "list":
             this.Data["PageTitle"] = "文章列表_文章管理_SEOCMS"
-            this.Data["Articles"] = []string{
-                "这是第1篇博客",
-                "这是第2篇博客",
-                "这是第3篇博客",
-            }
+            articles := []Article{}
+            orm := InitDb()
+            err = orm.OrderBy("-pubdate").FindAll(&articles)
+            Check(err)
+            this.Data["Articles"] = articles
             this.TplNames = "admin/article_list.tpl"
         case "add":
             this.Data["PageTitle"] = "添加文章_文章管理_SEOCMS"

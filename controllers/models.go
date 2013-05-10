@@ -37,3 +37,13 @@ func InitDb() (orm beedb.Model) {
     orm = beedb.New(db)
     return
 }
+
+// 在模板中根据分类ID得到分类名称
+func Id2category(id int) (category string) {
+    orm := InitDb()
+    categoryObj := Category{}
+    err = orm.Where("id=?", id).Find(&categoryObj)
+    Check(err)
+    category = categoryObj.Name
+    return
+}

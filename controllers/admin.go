@@ -141,6 +141,19 @@ func (this *AdminController) Post() {
             category.NameEn = this.Input().Get("name_en")
             category.Description = this.Input().Get("description")
             category.Alias = this.Input().Get("alias")
+
+            this.Layout = "layout_admin.tpl"
+            this.Data["Category"] = category
+
+            err = orm.Where("id!=? and (name=? or name_en=?)", id, category.Name, category.NameEn).Find(&category)
+            if err != nil {
+                orm = InitDb()
+            } else {
+                this.Data["Message"] = "分类名称或分类英文名称已存在"
+                this.TplNames = "admin/edit_category.tpl"
+                return
+            }
+
             err = orm.Save(&category)
             Check(err)
 

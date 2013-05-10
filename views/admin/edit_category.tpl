@@ -4,6 +4,10 @@
     <li><a href="/category/list">分类管理</a> <span class="divider">/</span>
     <li class="active">修改分类</li>
 </ul><!-- End .breadcrumb -->
+<div class="alert">
+    <button class="close" data-dismiss="alert" type="button">&times;</button>
+    <span>{{.Message}}</span>
+</div><!-- End .alert -->
 {{with .Category}}
 <form method="post" class="form-horizontal edit-category">
     <legend>修改分类</legend>

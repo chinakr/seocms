@@ -4,6 +4,10 @@
     <li><a href="/category/list">分类管理</a> <span class="divider">/</span>
     <li class="active">添加分类</li>
 </ul><!-- End .breadcrumb -->
+<div class="alert">
+    <button class="close" data-dismiss="alert" type="button">&times;</button>
+    {{.Message}}
+</div><!-- End .alert -->
 <form method="post" class="form-horizontal add-category">
     <legend>添加分类</legend>
     <div class="control-group">

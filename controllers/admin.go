@@ -93,6 +93,13 @@ func (this *AdminController) Post() {
             description := this.Input().Get("description")
             alias := this.Input().Get("alias")
 
+            if name == "" || nameEn == "" {
+                this.Data["Message"] = "分类名称或分类英文名称不能为空。"
+                this.Layout = "layout_admin.tpl"
+                this.TplNames = "admin/add_category.tpl"
+                return
+            }
+
             orm := InitDb()
             category := Category{}
             err = orm.Where("name=?", name).Find(&category)

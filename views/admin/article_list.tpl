@@ -10,7 +10,7 @@
 </thead>
 <tbody>
     {{range .Articles}}
-    <tr><td>{{id2category .Category}}</td><td>{{.Title}}</td><td>{{dateformat .Pubdate "2006-01-02"}}</td><td><span class="action"><a href="/c/1" target="_blank">查看</a></span><span class="action"><a href="/article/edit/1">修改</a></span><span class="action"><a href="/article/delete/1">删除</a></span></td></tr>
+    <tr><td>{{id2category .Category}}</td><td>{{.Title}}</td><td>{{dateformat .Pubdate "2006-01-02"}}</td><td><span class="action"><a href="/{{id2category .Category}}/{{.Id}}" target="_blank">查看</a></span><span class="action"><a href="/article/edit/{{.Id}}">修改</a></span><span class="action"><a href="/article/delete/{{.Id}}">删除</a></span></td></tr>
     {{end}}
 </tbody>
 </table><!-- .article-list -->

@@ -3,6 +3,7 @@ package controllers
 import (
     //"github.com/astaxie/beedb"
     "github.com/astaxie/beego"
+    "time"
 )
 
 type AdminController struct {
@@ -29,8 +30,8 @@ func (this *AdminController) Get() {
             this.Data["PageTitle"] = "添加文章_文章管理_SEOCMS"
 
             //this.Data["Categories"] = []string{"博客", "笔记"}    // 测试数据
-            categories := []Category{}
             orm := InitDb()
+            categories := []Category{}
             err = orm.OrderBy("name").FindAll(&categories)
             if err != nil {
                 this.Data["Categories"] = []string{}
@@ -98,6 +99,39 @@ func (this *AdminController) Post() {
     object := this.Ctx.Params[":object"]
     action := this.Ctx.Params[":action"]
     if object == "article" {
+        switch action {
+        case "add":    // 处理添加文章
+            title := this.Input().Get("title")
+            pubdate := this.Input().Get("pubdate")
+            abstract := this.Input().Get("abstract")
+            content := this.Input().Get("content")
+            category := this.Input().Get("category")
+            tags := this.Input().Get("tags")
+            Debug("%s, %s, %s, %s, %s, %s", title, pubdate, abstract, content, category, tags)
+
+            orm := InitDb()
+            categoryObj := Category{}
+            err = orm.Where("name=?", category).Find(&categoryObj)
+            Check(err)
+            categoryId := categoryObj.Id
+            Debug("Category id is `%d`.", categoryId)
+
+            article := Article{}
+            article.Title = title
+            article.Pubdate = Str2date(pubdate)
+            article.Updated = time.Now()
+            article.Abstract = abstract
+            article.AbstractHtml = Markdown2html(abstract)
+            article.Content = content
+            article.ContentHtml = Markdown2html(content)
+            article.Category = categoryId
+            Debug("Abstract is `%s`.", article.AbstractHtml)
+            orm = InitDb()
+            err = orm.Save(&article)
+            Check(err)
+
+        case "edit":    // 处理修改文章
+        }
         this.Ctx.Redirect(302, "/article/list")
     } else if object == "category" {
         switch action {

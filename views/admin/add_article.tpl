@@ -35,7 +35,7 @@
     <div class="control-group">
         <label class="control-label" for="category">文章分类</label>
         <div class="controls">
-            <select>
+            <select id="category" name="category">
                 {{range .Categories}}
                 <option>{{.}}</option>
                 {{end}}

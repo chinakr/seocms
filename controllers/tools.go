@@ -2,10 +2,14 @@ package controllers
 
 import (
     "code.google.com/p/mahonia"
+    "github.com/knieriem/markdown"
+    "bufio"
+    "bytes"
     "fmt"
     "os"
     "runtime"
     "strings"
+    "time"
 )
 
 var (
@@ -51,4 +55,24 @@ func Info(infos ...interface{}) {
 // 把用`, `间隔的字符串转换为字符串列表(例如关键字列表)
 func Str2slice(str string) []string {
     return strings.Split(str, ", ")
+}
+
+// 把字符串转换为time.Time对象
+func Str2date(timeStr string) (timeObj time.Time) {
+    layout := "2006-01-02"
+    timeObj, err = time.Parse(layout, timeStr)
+    Check(err)
+    return
+}
+
+// 把Markdown文本转换为HTML
+func Markdown2html(strMarkdown string) (html string) {
+    p := markdown.NewParser(&markdown.Extensions{Smart: true})
+    var buf bytes.Buffer
+    w := bufio.NewWriter(&buf)
+    r := bytes.NewBufferString(strMarkdown)
+    p.Markdown(r, markdown.ToHTML(w))
+    w.Flush()
+    html = string(buf.Bytes())
+    return
 }

@@ -28,7 +28,7 @@ func (this *AdminController) Get() {
         case "add":
             this.Data["PageTitle"] = "添加文章_文章管理_SEOCMS"
 
-            //this.Data["Categories"] = []string{"博客", "笔记"}
+            //this.Data["Categories"] = []string{"博客", "笔记"}    // 测试数据
             categories := []Category{}
             orm := InitDb()
             err = orm.OrderBy("name").FindAll(&categories)

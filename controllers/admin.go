@@ -1,7 +1,7 @@
 package controllers
 
 import (
-    //"github.com/astaxie/beedb"
+    "github.com/astaxie/beedb"
     "github.com/astaxie/beego"
     "time"
 )
@@ -10,7 +10,10 @@ type AdminController struct {
     beego.Controller
 }
 
-var err error
+var (
+    err error
+    orm beedb.Model
+)
 
 func (this *AdminController) Get() {
     this.Layout = "layout_admin.tpl"
@@ -21,7 +24,7 @@ func (this *AdminController) Get() {
         case "list":
             this.Data["PageTitle"] = "文章列表_文章管理_SEOCMS"
             articles := []Article{}
-            orm := InitDb()
+            orm = InitDb()
             err = orm.OrderBy("-pubdate").FindAll(&articles)
             Check(err)
             this.Data["Articles"] = articles
@@ -30,7 +33,7 @@ func (this *AdminController) Get() {
             this.Data["PageTitle"] = "添加文章_文章管理_SEOCMS"
 
             //this.Data["Categories"] = []string{"博客", "笔记"}    // 测试数据
-            orm := InitDb()
+            orm = InitDb()
             categories := []Category{}
             err = orm.OrderBy("name").FindAll(&categories)
             if err != nil {
@@ -48,7 +51,7 @@ func (this *AdminController) Get() {
             //this.Data["Id"] = this.Ctx.Params[":id"]
             id := this.Ctx.Params[":id"]
 
-            orm := InitDb()
+            orm = InitDb()
             article := Article{}
             err = orm.Where("id=?", id).Find(&article)
             Check(err)
@@ -76,21 +79,33 @@ func (this *AdminController) Get() {
             //this.Data["Id"] = this.Ctx.Params[":id"]
             //this.Data["PageTitle"] = "删除文章_文章管理_SEOCMS"
             //this.TplNames = "admin/del_article.tpl"
-            id := this.Ctx.Params[":id"]
 
-            orm := InitDb()
+            // 获取文章ID
+            id := this.Ctx.Params[":id"]
+            Debug("Delete article `%v`.", id)
+
+            // 删除文章-标签对应关系(如果存在)
+            orm = InitDb()
+            articleTagsList := []ArticleTags{}
+            err = orm.Where("article=?", id).FindAll(&articleTagsList)
+            Check(err)
+            orm.DeleteAll(&articleTagsList)
+
+            // 删除文章
+            orm = InitDb()
             article := Article{}
             err = orm.Where("id=?", id).Find(&article)
             Check(err)
             orm.Delete(&article)
 
+            // 返回文章列表
             this.Ctx.Redirect(301, "/article/list")
         }
     } else if object == "category" {
         switch action {
         case "list":    // 分类列表
             categories := []Category{}
-            orm := InitDb()
+            orm = InitDb()
             err = orm.OrderBy("name").FindAll(&categories)
             Check(err)
             this.Data["PageTitle"] = "分类列表_文章管理_SEOCMS"
@@ -103,7 +118,7 @@ func (this *AdminController) Get() {
             id := this.Ctx.Params[":id"]
             //this.Data["Id"] = id
 
-            orm := InitDb()
+            orm = InitDb()
             category := Category{}
             err = orm.Where("id=?", id).Find(&category)
             Check(err)
@@ -117,7 +132,7 @@ func (this *AdminController) Get() {
             //this.TplNames = "admin/delete_category.tpl"
             id := this.Ctx.Params[":id"]
 
-            orm := InitDb()
+            orm = InitDb()
             category := Category{}
             err = orm.Where("id=?", id).Find(&category)
             Check(err)
@@ -145,7 +160,7 @@ func (this *AdminController) Post() {
             //Debug("%s, %s, %s, %s, %s, %s", title, pubdate, abstract, content, category, tags)
 
             // 根据分类名称获得分类ID
-            orm := InitDb()
+            orm = InitDb()
             categoryObj := Category{}
             err = orm.Where("name=?", category).Find(&categoryObj)
             Check(err)
@@ -192,7 +207,7 @@ func (this *AdminController) Post() {
         case "edit":    // 处理修改文章
             id := this.Ctx.Params[":id"]    // 文章ID
 
-            orm := InitDb()
+            orm = InitDb()
             article := Article{}
             err = orm.Where("id=?", id).Find(&article)
             Check(err)
@@ -260,7 +275,7 @@ func (this *AdminController) Post() {
             }
 
             // 检查分类名称或分类英文名称是否已存在
-            orm := InitDb()
+            orm = InitDb()
             category := Category{}
             err = orm.Where("name=? or name_en=?", name, nameEn).Find(&category)
             if err != nil {
@@ -285,7 +300,7 @@ func (this *AdminController) Post() {
         case "edit":    // 处理修改分类
             id := this.Ctx.Params[":id"]    // 分类ID
 
-            orm := InitDb()
+            orm = InitDb()
             category := Category{}
             err = orm.Where("id=?", id).Find(&category)
             Check(err)

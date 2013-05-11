@@ -58,10 +58,10 @@ func Str2slice(str string) []string {
 }
 
 // 把字符串转换为time.Time对象
-func Str2date(timeStr string) (timeObj time.Time) {
+func Str2date(timeStr string) (timeObj time.Time, err error) {
     layout := "2006-01-02"
     timeObj, err = time.Parse(layout, timeStr)
-    Check(err)
+    //Check(err)
     return
 }
 

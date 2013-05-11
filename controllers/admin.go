@@ -45,7 +45,30 @@ func (this *AdminController) Get() {
 
             this.TplNames = "admin/add_article.tpl"
         case "edit":
-            this.Data["Id"] = this.Ctx.Params[":id"]
+            //this.Data["Id"] = this.Ctx.Params[":id"]
+            id := this.Ctx.Params[":id"]
+
+            orm := InitDb()
+            article := Article{}
+            err = orm.Where("id=?", id).Find(&article)
+            Check(err)
+            this.Data["Article"] = article
+
+            orm = InitDb()
+            categories := []Category{}
+            err = orm.OrderBy("name").FindAll(&categories)
+            if err != nil {
+                this.Data["Categories"] = []string{}
+            } else {
+                categoryList := []string{}
+                for _, category := range(categories) {
+                    categoryList = append(categoryList, category.Name)
+                }
+                this.Data["Categories"] = categoryList
+            }
+
+            this.Data["Pubdate"] = article.Pubdate.Format("2006-01-02")
+
             this.Data["PageTitle"] = "编辑文章_文章管理_SEOCMS"
             this.TplNames = "admin/edit_article.tpl"
         case "delete":
@@ -98,6 +121,7 @@ func (this *AdminController) Get() {
 func (this *AdminController) Post() {
     object := this.Ctx.Params[":object"]
     action := this.Ctx.Params[":action"]
+    this.Layout = "layout_admin.tpl"
     if object == "article" {
         switch action {
         case "add":    // 处理添加文章
@@ -118,7 +142,7 @@ func (this *AdminController) Post() {
 
             article := Article{}
             article.Title = title
-            article.Pubdate = Str2date(pubdate)
+            article.Pubdate, _ = Str2date(pubdate)
             article.Updated = time.Now()
             article.Abstract = abstract
             article.AbstractHtml = Markdown2html(abstract)
@@ -131,6 +155,53 @@ func (this *AdminController) Post() {
             Check(err)
 
         case "edit":    // 处理修改文章
+            id := this.Ctx.Params[":id"]    // 文章ID
+
+            orm := InitDb()
+            article := Article{}
+            err = orm.Where("id=?", id).Find(&article)
+            Check(err)
+
+            article.Title = this.Input().Get("title")
+            pubdate := this.Input().Get("pubdate")
+            article.Abstract = this.Input().Get("abstract")
+            article.Content = this.Input().Get("content")
+            category := this.Input().Get("category")
+            tags := this.Input().Get("tags")
+
+            this.Data["Article"] = article
+            this.Data["Pubdate"] = pubdate
+            this.Data["Category"] = category
+            this.Data["Tags"] = tags
+
+            // 检查文章标题或发布日期是否为空
+            if article.Title == "" || pubdate == "" {
+                this.Data["Message"] = "文章标题或发布日期不能为空。"
+                this.TplNames = "admin/edit_article.tpl"
+                return
+            }
+
+            // 检查发布日期格式是否合法
+            article.Pubdate, err = Str2date(pubdate)
+            if err != nil {
+                this.Data["Message"] = "发布日期格式不正确，请采用`2006-01-02`这样的格式。"
+                this.TplNames = "admin/edit_article.tpl"
+                return
+            }
+
+            orm = InitDb()
+            categoryObj := Category{}
+            err = orm.Where("name=?", category).Find(&categoryObj)
+            Check(err)
+            categoryId := categoryObj.Id
+
+            article.Updated = time.Now()
+            article.AbstractHtml = Markdown2html(article.Abstract)
+            article.ContentHtml = Markdown2html(article.Content)
+            article.Category = categoryId
+            orm = InitDb()
+            err = orm.Save(&article)
+            Check(err)
         }
         this.Ctx.Redirect(302, "/article/list")
     } else if object == "category" {
@@ -141,7 +212,6 @@ func (this *AdminController) Post() {
             description := this.Input().Get("description")
             alias := this.Input().Get("alias")
 
-            this.Layout = "layout_admin.tpl"
             this.Data["Name"] = name
             this.Data["NameEn"] = nameEn
             this.Data["Description"] = description
@@ -178,7 +248,7 @@ func (this *AdminController) Post() {
 
             this.Ctx.Redirect(302, "/category/list")
         case "edit":    // 处理修改分类
-            id := this.Ctx.Params[":id"]
+            id := this.Ctx.Params[":id"]    // 分类ID
 
             orm := InitDb()
             category := Category{}
@@ -190,7 +260,6 @@ func (this *AdminController) Post() {
             category.Description = this.Input().Get("description")
             category.Alias = this.Input().Get("alias")
 
-            this.Layout = "layout_admin.tpl"
             this.Data["Category"] = category
 
             // 检查分类名称或分类英文名称是否为空

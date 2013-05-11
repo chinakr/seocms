@@ -72,9 +72,18 @@ func (this *AdminController) Get() {
             this.Data["PageTitle"] = "编辑文章_文章管理_SEOCMS"
             this.TplNames = "admin/edit_article.tpl"
         case "delete":
-            this.Data["Id"] = this.Ctx.Params[":id"]
-            this.Data["PageTitle"] = "删除文章_文章管理_SEOCMS"
-            this.TplNames = "admin/del_article.tpl"
+            //this.Data["Id"] = this.Ctx.Params[":id"]
+            //this.Data["PageTitle"] = "删除文章_文章管理_SEOCMS"
+            //this.TplNames = "admin/del_article.tpl"
+            id := this.Ctx.Params[":id"]
+
+            orm := InitDb()
+            article := Article{}
+            err = orm.Where("id=?", id).Find(&article)
+            Check(err)
+            orm.Delete(&article)
+
+            this.Ctx.Redirect(301, "/article/list")
         }
     } else if object == "category" {
         switch action {

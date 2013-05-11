@@ -53,6 +53,7 @@ func (this *AdminController) Get() {
             err = orm.Where("id=?", id).Find(&article)
             Check(err)
             this.Data["Article"] = article
+            this.Data["Category"] = article.Category
 
             orm = InitDb()
             categories := []Category{}

@@ -15,6 +15,7 @@ func main() {
     beego.Router("/:object(category)/:action(edit|delete)/:id([0-9]+)", &controllers.AdminController{})    // 编辑分类、修改分类
 
     beego.AddFuncMap("id2category", controllers.Id2category)
+    beego.AddFuncMap("isSelected", controllers.IsSelected)
 
     beego.Run()
 }

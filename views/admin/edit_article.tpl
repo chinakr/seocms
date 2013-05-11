@@ -40,8 +40,10 @@
         <label class="control-label" for="category">文章分类</label>
         <div class="controls">
             <select id="category" name="category">
+                {{$category := .Category}}
                 {{range .Categories}}
-                <option>{{.}}</option>
+                {{$isSelected := isSelected . $category}}
+                <option{{if $isSelected}} selected{{end}}>{{.}}</option>
                 {{end}}
             </select>
             (必填)

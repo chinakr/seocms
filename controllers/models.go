@@ -47,3 +47,17 @@ func Id2category(id int) (category string) {
     category = categoryObj.Name
     return
 }
+
+// 如果当前分类被选中则返回` slected`字符串
+func IsSelected(categoryName string, categoryId int) (isSelected bool) {
+    orm := InitDb()
+    category := Category{}
+    err = orm.Where("id=?", categoryId).Find(&category)
+    Check(err)
+    if categoryName == category.Name {
+        isSelected = true
+    } else {
+        isSelected = false
+    }
+    return
+}

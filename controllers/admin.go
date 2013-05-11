@@ -73,6 +73,22 @@ func (this *AdminController) Get() {
 
             this.Data["Pubdate"] = article.Pubdate.Format("2006-01-02")
 
+            // 生成字符串形式的文章标签列表(用`, `分隔)
+            orm = InitDb()
+            articleTagsList := []ArticleTags{}
+            err = orm.Where("article=?", article.Id).FindAll(&articleTagsList)
+            Check(err)
+            tags := ""
+            for _, articleTags := range(articleTagsList) {
+                orm = InitDb()
+                tag := Tag{}
+                err = orm.Where("id=?", articleTags.Tag).Find(&tag)
+                Check(err)
+                tags += ", " + tag.Name
+            }
+            tags = tags[2:]    // 利用切片删除开头多余的`, `
+            this.Data["Tags"] = tags
+
             this.Data["PageTitle"] = "编辑文章_文章管理_SEOCMS"
             this.TplNames = "admin/edit_article.tpl"
         case "delete":

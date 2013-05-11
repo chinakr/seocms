@@ -8,7 +8,7 @@ import (
 )
 
 type Category struct {    // 文章分类
-    Id int    // 数据库记录ID
+    Id int    // 分类ID
     Name string    // 分类名称
     NameEn string    // 分类英文名称(包括拼音或缩写)
     Description string    // 分类描述
@@ -17,7 +17,7 @@ type Category struct {    // 文章分类
 }
 
 type Article struct {    // 文章
-    Id int    // 数据库记录ID
+    Id int    // 文章ID
     Title string    // 文章标题
     Abstract string    // 文章摘要，Markdown格式
     AbstractHtml string    // 文章摘要，HTML格式
@@ -26,6 +26,20 @@ type Article struct {    // 文章
     Pubdate time.Time    // 发布日期
     Updated time.Time    // 最后更新日期
     Category int    // 文章分类(外键)
+}
+
+type Tag struct {    // 文章标签
+    Id int    // 标签ID
+    Name string    // 标签名称
+    NameEn string    // 标签英文名称(包括拼音和缩写)
+    Description string    // 标签描述
+    Alias string    // 标签别名(别名之前用`, `分隔)
+}
+
+type ArticleTags struct {    // 文章-标签对应关系
+    Id int    // 文章-标签ID
+    Article int    // 文章ID
+    Tag int    // 标签ID
 }
 
 func InitDb() (orm beedb.Model) {

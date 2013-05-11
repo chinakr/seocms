@@ -135,14 +135,16 @@ func (this *AdminController) Post() {
     if object == "article" {
         switch action {
         case "add":    // 处理添加文章
+            // 获取表单数据
             title := this.Input().Get("title")
             pubdate := this.Input().Get("pubdate")
             abstract := this.Input().Get("abstract")
             content := this.Input().Get("content")
             category := this.Input().Get("category")
             tags := this.Input().Get("tags")
-            Debug("%s, %s, %s, %s, %s, %s", title, pubdate, abstract, content, category, tags)
+            //Debug("%s, %s, %s, %s, %s, %s", title, pubdate, abstract, content, category, tags)
 
+            // 根据分类名称获得分类ID
             orm := InitDb()
             categoryObj := Category{}
             err = orm.Where("name=?", category).Find(&categoryObj)
@@ -150,6 +152,7 @@ func (this *AdminController) Post() {
             categoryId := categoryObj.Id
             Debug("Category id is `%d`.", categoryId)
 
+            // 保存文章
             article := Article{}
             article.Title = title
             article.Pubdate, _ = Str2date(pubdate)
@@ -164,6 +167,28 @@ func (this *AdminController) Post() {
             err = orm.Save(&article)
             Check(err)
 
+            // 保存文章标签
+            tagList := Str2slice(tags)
+            for _, tagName := range(tagList) {
+                // 如果标签不存在，保存标签
+                orm = InitDb()
+                tag := Tag{}
+                err = orm.Where("name=?", tagName).Find(&tag)
+                if err != nil {
+                    orm = InitDb()
+                    tag.Name = tagName
+                    err = orm.Save(&tag)
+                    Check(err)
+                }
+
+                // 添加标签和文章的对应关系
+                orm = InitDb()
+                articleTags := ArticleTags{}
+                articleTags.Article = article.Id
+                articleTags.Tag = tag.Id
+                err = orm.Save(&articleTags)
+                Check(err)
+            }
         case "edit":    // 处理修改文章
             id := this.Ctx.Params[":id"]    // 文章ID
 

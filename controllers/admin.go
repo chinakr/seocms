@@ -255,12 +255,14 @@ func (this *AdminController) Post() {
                 return
             }
 
+            // 根据分类名称获得分类ID
             orm = InitDb()
             categoryObj := Category{}
             err = orm.Where("name=?", category).Find(&categoryObj)
             Check(err)
             categoryId := categoryObj.Id
 
+            // 保存文章
             article.Updated = time.Now()
             article.AbstractHtml = Markdown2html(article.Abstract)
             article.ContentHtml = Markdown2html(article.Content)
@@ -268,6 +270,66 @@ func (this *AdminController) Post() {
             orm = InitDb()
             err = orm.Save(&article)
             Check(err)
+
+            // 获得文章原有标签列表
+            articleTagsList := []ArticleTags{}
+            err = orm.Where("article=?", article.Id).FindAll(&articleTagsList)
+            currentTagIdList := make(map[string]int)
+            currentTagList := []string{}
+            for _, articleTags := range(articleTagsList) {
+                orm = InitDb()
+                tag := Tag{}
+                err = orm.Where("id=?", articleTags.Tag).Find(&tag)
+                Check(err)
+                currentTagIdList[tag.Name] = tag.Id
+                currentTagList = append(currentTagList, tag.Name)
+            }
+
+            // 修改后的文章标签列表
+            tagList := Str2slice(tags)
+
+            // 删除修改后不再存在的文章-标签对应关系
+            for tagName, tagId := range(currentTagIdList) {
+                // 如果修改后标签仍存在，那么什么也不做
+                if SliceContains(tagList, tagName) {
+                    continue
+                }
+
+                // 否则就删除对应的文章-标签对应关系
+                orm = InitDb()
+                articleTags := ArticleTags{}
+                err = orm.Where("tag=?", tagId).Find(&articleTags)
+                Check(err)
+                orm.Delete(&articleTags)
+            }
+
+            // 添加修改后新增的文章-标签对应关系
+            for _, tagName := range(tagList) {
+                // 如果不是新增标签，那么什么也不做
+                if SliceContains(currentTagList, tagName) {
+                    continue
+                }
+
+                // 如果是新增标签，那么
+                // 如果标签不存在，保存标签
+                orm = InitDb()
+                tag := Tag{}
+                err = orm.Where("name=?", tagName).Find(&tag)
+                if err != nil {
+                    orm = InitDb()
+                    tag.Name = tagName
+                    err = orm.Save(&tag)
+                    Check(err)
+                }
+
+                // 添加标签和文章的对应关系
+                orm = InitDb()
+                articleTags := ArticleTags{}
+                articleTags.Article = article.Id
+                articleTags.Tag = tag.Id
+                err = orm.Save(&articleTags)
+                Check(err)
+            }
         }
         this.Ctx.Redirect(302, "/article/list")
     } else if object == "category" {

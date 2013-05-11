@@ -76,3 +76,15 @@ func Markdown2html(strMarkdown string) (html string) {
     html = string(buf.Bytes())
     return
 }
+
+// 判断字符串切片中是否包含某个字符串
+func SliceContains(strSlice []string, str string) bool {
+    strMap := make(map[string]bool)
+    for _, strItem := range(strSlice) {
+        strMap[strItem] = true
+    }
+    if _, ok := strMap[str]; ok {
+        return true
+    }
+    return false
+}

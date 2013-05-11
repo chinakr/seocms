@@ -9,7 +9,7 @@
     <div class="control-group">
         <label class="control-label" for="title">文章标题</label>
         <div class="controls">
-            <input type="text" id="title" name="title" placeholder="请输入文章标题" />
+            <input type="text" id="title" name="title" placeholder="请输入文章标题" class="input-xxlarge" />
             (必填)
         </div>
     </div><!-- End .control-group -->

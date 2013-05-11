@@ -11,6 +11,11 @@
     width: 80%;
 }
 
+/* 设置表单的文本输入框宽度 */
+.container .content .input-xxlarge {
+    width: 80%;
+}
+
 /* 管理按钮的间距 */
 .container td span.action {
     margin-right: 10px;

@@ -88,3 +88,12 @@ func SliceContains(strSlice []string, str string) bool {
     }
     return false
 }
+
+// 从数据库获得分类列表
+func GetCategories() (categories []Category) {
+    orm = InitDb()
+    categories = []Category{}
+    err = orm.OrderBy("name").FindAll(&categories)
+    Check(err)
+    return
+}

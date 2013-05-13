@@ -21,11 +21,7 @@ func (this *ListController) Get() {
     //Debug("Current category is `%s`.", categoryNameEn)
 
     // 获取分类列表，用于导航栏
-    orm = InitDb()
-    categories := []Category{}
-    err = orm.OrderBy("name").FindAll(&categories)
-    Check(err)
-    this.Data["Categories"] = categories
+    this.Data["Categories"] = GetCategories()
 
     if categoryNameEn == "" {    // 首页
         orm = InitDb()

@@ -1,3 +1,8 @@
+/* 缩小H1标题字号 */
+.container .content h1 {
+    font-size: 24px;
+}
+
 /* 页尾居中(版权信息等) */
 .footer {
     text-align: center;

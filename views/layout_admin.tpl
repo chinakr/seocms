@@ -16,7 +16,7 @@
     <div class="header">
         <div class="navbar">
             <div class="navbar-inner">
-                <a class="brand" href="/article/list">SEOCMS后台管理</a>
+                <a class="brand" href="/admin">SEOCMS后台管理</a>
             </div>
             <ul class="nav">
             </ul>

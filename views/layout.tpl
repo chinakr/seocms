@@ -9,6 +9,7 @@
 <script src="http://lib.sinaapp.com/js/jquery/1.9.1/jquery-1.9.1.min.js"></script>
 <script src="http://lib.sinaapp.com/js/bootstrap/latest/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="/static/css/global.css" />
+<script src="/static/js/global.js"></script>
 </head>
 <body>
 <div class="container">

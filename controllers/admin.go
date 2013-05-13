@@ -16,6 +16,13 @@ var (
 )
 
 func (this *AdminController) Get() {
+    pageUrl := this.Ctx.Request.RequestURI
+    Debug("The URL is `%s`.", pageUrl)
+    if pageUrl == "/admin" {    // 管理后台首页设置为文章列表页
+        this.Ctx.Redirect(301, "/article/list")
+        return
+    }
+
     this.Layout = "layout_admin.tpl"
     object := this.Ctx.Params[":object"]
     action := this.Ctx.Params[":action"]

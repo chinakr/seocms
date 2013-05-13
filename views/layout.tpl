@@ -12,9 +12,31 @@
 </head>
 <body>
 <div class="container">
-    <div class="row">
-    {{.LayoutContent}}
-    </div><!-- End .row -->
+    <div class="header">
+        <div class="navbar">
+            <div class="navbar-inner">
+                <a class="brand" href="/">{{.SiteName}}</a>
+                <ul class="nav">
+                    <li class="index"><a href="/">首页</a></li>
+                    {{range .Categories}}
+                    <li class="{{.NameEn}}"><a href="/{{.NameEn}}/">{{.Name}}</a></li>
+                    {{end}}
+                </ul>
+            </div><!-- End .navbar-inner -->
+        </div><!-- End .navbar -->
+    </div><!-- End .header -->
+    <div class="content">
+        <div class="row">
+            <div class="main span10">
+                {{.LayoutContent}}
+            </div><!-- End .main -->
+            <div class="sidebar span2">
+            </div><!-- End .sidebar -->
+        </div><!-- End .row -->
+    </div><!-- End .content -->
+    <div class="footer">
+        <p>&copy; 2013 SEOCMS Developed by <a href="http://weibo.com/chinakr" target="_blank">chinakr</a></p>
+    </div><!-- End .footer -->
 </div><!-- End .container -->
 </body>
 </html>

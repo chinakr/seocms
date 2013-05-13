@@ -7,7 +7,7 @@
 <tbody>
     {{$category := .Category.NameEn}}
     {{range .Articles}}
-    <tr><td><a href="/{{$category}}/{{.Id}}" target="_blank">{{.Title}}</a></td><td>{{.Pubdate}}</td></tr>
+    <tr><td><a href="/{{$category}}/{{.Id}}" target="_blank">{{.Title}}</a></td><td>{{dateformat .Pubdate "2006-01-02"}}</td></tr>
     {{end}}
 </tbody>
 </table>

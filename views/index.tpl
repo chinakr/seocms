@@ -4,9 +4,8 @@
     <tr><th>文章标题</th><th>发表日期</th></tr>
 </thead>
 <tbody>
-    {{$category := .Category.NameEn}}
     {{range .Articles}}
-    <tr><td><a href="/{{$category}}/{{.Id}}" target="_blank">{{.Title}}</a></td><td>{{dateformat .Pubdate "2006-01-02"}}</td></tr>
+    <tr><td><a href="/{{id2categoryEn .Category}}/{{.Id}}" target="_blank">{{.Title}}</a></td><td>{{dateformat .Pubdate "2006-01-02"}}</td></tr>
     {{end}}
 </tbody>
 </table>

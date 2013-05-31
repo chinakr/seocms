@@ -1,10 +1,10 @@
-# seocms
+# SEOCMS
 
-seocms is a Search engine optimized CMS, which is developed in Go programming language.
+SEOCMS is a Search engine optimized CMS, which is developed in Go programming language.
 
 ## Dependency
 
-seocms uses following 3rd frameworks:
+SEOCMS uses following 3rd frameworks:
 
 * beego
 * beedb

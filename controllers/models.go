@@ -58,7 +58,7 @@ func Id2category(id int) (category string) {
     categoryObj := Category{}
     err = orm.Where("id=?", id).Find(&categoryObj)
     Check(err)
-    category = categoryObj.Name
+    category = categoryObj.NameEn
     return
 }
 

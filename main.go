@@ -20,6 +20,7 @@ func main() {
     beego.Router("/:category(.+)/:id([0-9]+)", &controllers.ArticleController{})    // 文章内容页
 
     beego.AddFuncMap("id2category", controllers.Id2category)
+    beego.AddFuncMap("id2categoryEn", controllers.Id2categoryEn)
     beego.AddFuncMap("isSelected", controllers.IsSelected)
 
     beego.Run()

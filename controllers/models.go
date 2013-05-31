@@ -58,6 +58,16 @@ func Id2category(id int) (category string) {
     categoryObj := Category{}
     err = orm.Where("id=?", id).Find(&categoryObj)
     Check(err)
+    category = categoryObj.Name
+    return
+}
+
+// 在模板中根据分类ID得到分类英文名称
+func Id2categoryEn(id int) (category string) {
+    orm := InitDb()
+    categoryObj := Category{}
+    err = orm.Where("id=?", id).Find(&categoryObj)
+    Check(err)
     category = categoryObj.NameEn
     return
 }

@@ -1,8 +1,3 @@
-/* 缩小H1标题字号 */
-.container .content h1 {
-    font-size: 24px;
-}
-
 /* 页尾居中(版权信息等) */
 .footer {
     text-align: center;
@@ -24,4 +19,68 @@
 /* 管理按钮的间距 */
 .container td span.action {
     margin-right: 10px;
+}
+
+
+/* 文章内容页样式 */
+body {
+    color: #666666;
+}
+.article-content {
+    padding-bottom: 10px;
+    padding-top: 0;
+    background-color: white;
+    font-family: Helvetica,Tahoma,arial,sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 120px;
+}
+/* H标题的样式 */
+.article-content h1, .article-content h2, .article-content h3, .article-content h4 {
+    font-weight: bold;
+    margin: 20px 0 10px;
+    padding: 0;
+    position: relative;
+}
+.content h1 {
+    font-size: 22px;
+}
+.article-content h2 {
+    border-bottom: 1px solid #CCCCCC;
+    color: #333333;
+    font-size: 24px;
+}
+.article-content h3 {
+    color: #333333;
+    font-size: 18px;
+    text-shadow: none;
+}
+.article-content h4 {
+    font-size: 16px;
+}
+.article-content p, .article-content ul, .article-content ol, .article-content li, .article-content table, .article-content pre {
+    margin: 15px 0;
+}
+/* 元信息的样式 */
+.article-meta {
+    color: #999999;
+    font-size: 12px;
+    line-height: 24px;
+}
+/* 正文超链接的样式 */
+.article-content p a {
+    color: #FF6600;
+}
+/* 行内代码的样式 */
+.article-content code {
+    background-color: #F8F8F8;
+    border: 1px solid #EAEAEA;
+    border-radius: 3px 3px 3px 3px;
+    margin: 0 2px;
+    padding: 0 5px;
+    white-space: nowrap;
+    color: #666666;
+    font-style: normal;
+    font-weight: normal;
+    font-family: monospace;
 }

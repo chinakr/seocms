@@ -8,6 +8,7 @@ import (
 func main() {
     // 管理后台：文章、分类管理
     beego.Router("/admin", &controllers.AdminController{})
+    beego.Router("/admin/", &controllers.AdminController{})
     beego.Router("/:object(article)/:action(list|add)", &controllers.AdminController{})    // 显示文章列表、添加文章
     beego.Router("/:object(article)/:action(edit|delete)/:id([0-9]+)", &controllers.AdminController{})    // 编辑文章、修改文章
     beego.Router("/:object(category)/:action(list|add)", &controllers.AdminController{})    // 显示分类列表、添加分类

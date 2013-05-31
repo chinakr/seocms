@@ -67,6 +67,18 @@ body {
     font-size: 12px;
     line-height: 24px;
 }
+.article-meta ul {
+    list-style: none;
+    margin: 0;
+}
+.article-meta li {
+    float: left;
+    margin-right: 5px;
+}
+.article-meta li a {
+    color: #999999;
+    text-decoration: underline;
+}
 /* 正文超链接的样式 */
 .article-content p a {
     color: #FF6600;

@@ -4,6 +4,8 @@ import (
     "github.com/astaxie/beedb"
     _ "github.com/ziutek/mymysql/godrv"
     "database/sql"
+    "fmt"
+    "strings"
     "time"
 )
 
@@ -72,7 +74,7 @@ func Id2categoryEn(id int) (category string) {
     return
 }
 
-// 如果当前分类被选中则返回` slected`字符串
+// 如果当前分类被选中则返回` selected`字符串
 func IsSelected(categoryName string, categoryId int) (isSelected bool) {
     orm := InitDb()
     category := Category{}
@@ -83,5 +85,24 @@ func IsSelected(categoryName string, categoryId int) (isSelected bool) {
     } else {
         isSelected = false
     }
+    return
+}
+
+// 根据文章ID，返回对应的文章标签列表
+func FindTags(articleId int) (tags string) {
+    orm := InitDb()
+    articleTagsList := []ArticleTags{}
+    err = orm.Where("article=?", articleId).FindAll(&articleTagsList)
+    Check(err)
+    tagList := []string{}
+    for _, articleTags := range(articleTagsList) {
+        tagId := articleTags.Tag
+        tag := Tag{}
+        err = orm.Where("id=?", tagId).Find(&tag)
+        Check(err)
+        tagItem := fmt.Sprintf("<li><a href=\"/t%d/\" target=\"_blank\">%s</a></li>", tag.Id, tag.Name)
+        tagList = append(tagList, tagItem)
+    }
+    tags = strings.Join(tagList, "\n")
     return
 }

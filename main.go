@@ -19,9 +19,10 @@ func main() {
     beego.Router("/:category(.+)/", &controllers.ListController{})    // 分类列表页(以及SEO过的标签列表页)
     beego.Router("/:category(.+)/:id([0-9]+)", &controllers.ArticleController{})    // 文章内容页
 
-    beego.AddFuncMap("id2category", controllers.Id2category)
-    beego.AddFuncMap("id2categoryEn", controllers.Id2categoryEn)
-    beego.AddFuncMap("isSelected", controllers.IsSelected)
+    beego.AddFuncMap("id2category", controllers.Id2category)    // 根据分类ID，获得分类名称
+    beego.AddFuncMap("id2categoryEn", controllers.Id2categoryEn)    // 根据分类ID，获得分类英文名称
+    beego.AddFuncMap("isSelected", controllers.IsSelected)    // 如果当前分类被选中，返回字符串`selected`
+    beego.AddFuncMap("findTags", controllers.FindTags)    // 根据文章ID，获得文章标签列表
 
     beego.Run()
 }

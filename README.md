@@ -6,9 +6,9 @@ SEOCMS is a Search engine optimized CMS, which is developed in Go programming la
 
 SEOCMS uses following 3rd frameworks:
 
-* beego
-* beedb
-* Bootstrap
+* [beego](https://github.com/astaxie/beego/)
+* [beedb](https://github.com/astaxie/beedb/)
+* [Bootstrap](http://twitter.github.io/bootstrap/)
 
 ## Let's go
 

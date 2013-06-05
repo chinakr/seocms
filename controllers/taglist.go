@@ -17,6 +17,16 @@ func (this *TagListController) Get() {
     tagId := this.Ctx.Params[":tagid"]
     Debug("Current tag id is `%s`.", tagId)
 
+    // 获得当前页码
+    pagenum, err := this.GetInt("page")
+    //Check(err)
+    if err != nil {
+        //Debug("Can't fetch page num with error `%s`.", err)
+        Debug("Page number not specified.")
+    } else {
+        Debug("Current page number is `%v`.", pagenum)
+    }
+
     // 获得当前标签
     orm = InitDb()
     tag := Tag{}

@@ -26,7 +26,18 @@ func (this *ListController) Get() {
     // 获取分类列表，用于导航栏
     this.Data["Categories"] = GetCategories()
 
+    // 获得当前页码
+    pagenum, err := this.GetInt("page")
+    //Check(err)
+    if err != nil {
+        //Debug("Can't fetch page num with error `%s`.", err)
+        Debug("Page number not specified.")
+    } else {
+        Debug("Current page number is `%v`.", pagenum)
+    }
+
     if categoryNameEn == "" {    // 首页
+        // 获得完整的文章列表
         orm = InitDb()
         articles := []Article{}
         err = orm.OrderBy("-pubdate").Limit(ItemsPerPage).FindAll(&articles)

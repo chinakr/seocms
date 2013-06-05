@@ -25,7 +25,21 @@ func (this *TagListController) Get() {
     this.Data["Tag"] = tag
 
     // 获得当前标签下的文章列表
-    //this.Data["Articles"] = articles
+    articleTagsList := []ArticleTags{}
+    err = orm.Where("tag=?", tag.Id).FindAll(&articleTagsList)
+    Check(err)
+    articles := []Article{}
+    for _, articleTags := range(articleTagsList) {
+        Debug("Tag ID `%d`, article ID `%d`.", articleTags.Tag, articleTags.Article)
+        articleItem := Article{}
+        err = orm.Where("id=?", articleTags.Article).Find(&articleItem)
+        Debug("Article ID `%d`, article `%s`.", articleItem.Id, articleItem.Title)
+        articles = append(articles, articleItem)
+    }
+    this.Data["Articles"] = articles
+
+    // 获取分类列表，用于导航栏
+    this.Data["Categories"] = GetCategories()
 
     // 设置页面标题
     this.Data["PageTitle"] = fmt.Sprintf("%s相关文章_%s", tag.Name, beego.AppConfig.String("appname"))

@@ -6,7 +6,7 @@
 </thead>
 <tbody>
     {{range .Articles}}
-    <tr><td><a href="/{{id2category .Id}}/{{.Id}}" target="_blank">{{.Title}}</a></td><td>{{dateformat .Pubdate "2006-01-02"}}</td></tr>
+    <tr><td><a href="/{{id2categoryEn .Category}}/{{.Id}}" target="_blank">{{.Title}}</a></td><td>{{dateformat .Pubdate "2006-01-02"}}</td></tr>
     {{end}}
 </tbody>
 </table>

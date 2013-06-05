@@ -27,8 +27,9 @@ func (this *ListController) Get() {
     this.Data["Categories"] = GetCategories()
 
     // 获得当前页码
-    pagenum, err := this.GetInt("page")
+    pagenumInt64, err := this.GetInt("page")
     //Check(err)
+    pagenum := int(pagenumInt64)
     if err != nil {
         //Debug("Can't fetch page num with error `%s`.", err)
         Debug("Page number not specified.")
@@ -41,12 +42,22 @@ func (this *ListController) Get() {
     start := (int(pagenum) -1) * ItemsPerPage
 
     if categoryNameEn == "" {    // 首页
-        // 获得完整的文章列表
+        // 获得文章总数
         orm = InitDb()
+        allArticles := []Article{}
+        err = orm.FindAll(&allArticles)
+        total := len(allArticles)    // 文章总数
+        Debug("There are %d articles in total.", total)
+
+        // 获得当前页的文章列表
         articles := []Article{}
         err = orm.OrderBy("-pubdate").Limit(ItemsPerPage, start).FindAll(&articles)
         Check(err)
         this.Data["Articles"] = articles
+
+        // 获得分页导航HTML代码
+        paginator := GetPaginator(total, ItemsPerPage, pagenum)
+        this.Data["Paginator"] = paginator
 
         // 设置页面标题
         this.Data["PageTitle"] = beego.AppConfig.String("appname")

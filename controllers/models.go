@@ -124,3 +124,8 @@ func FindTagsText(articleId int) (tags string) {
     tags = strings.Join(tagList, ", ")
     return
 }
+
+// 根据文章总数、每页文章数、当前页码，生成Bootstrap格式的分页导航HTML代码
+func GetPaginator(total, itemsPerPage, pagenum int) (paginator string) {
+    return `<li><a href="#">test</a></li>`
+}

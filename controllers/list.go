@@ -14,7 +14,7 @@ type ListController struct {
 
 const (
     SiteName = "SEOCMS"    // 网站名称
-    ItemsPerPage = 10    // 列表页上每页显示文章数量
+    ItemsPerPage = 5    // 列表页上每页显示文章数量
 )
 
 func (this *ListController) Get() {
@@ -32,15 +32,19 @@ func (this *ListController) Get() {
     if err != nil {
         //Debug("Can't fetch page num with error `%s`.", err)
         Debug("Page number not specified.")
+        pagenum = 1
     } else {
         Debug("Current page number is `%v`.", pagenum)
     }
+
+    // 计算起始文章序号
+    start := (int(pagenum) -1) * ItemsPerPage
 
     if categoryNameEn == "" {    // 首页
         // 获得完整的文章列表
         orm = InitDb()
         articles := []Article{}
-        err = orm.OrderBy("-pubdate").Limit(ItemsPerPage).FindAll(&articles)
+        err = orm.OrderBy("-pubdate").Limit(ItemsPerPage, start).FindAll(&articles)
         Check(err)
         this.Data["Articles"] = articles
 

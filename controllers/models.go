@@ -106,3 +106,21 @@ func FindTags(articleId int) (tags string) {
     tags = strings.Join(tagList, "\n")
     return
 }
+
+// 根据文章ID，返回对应的文章标签列表，格式为`标签1, 标签2, 标签3`
+func FindTagsText(articleId int) (tags string) {
+    orm := InitDb()
+    articleTagsList := []ArticleTags{}
+    err = orm.Where("article=?", articleId).FindAll(&articleTagsList)
+    Check(err)
+    tagList := []string{}
+    for _, articleTags := range(articleTagsList) {
+        tagId := articleTags.Tag
+        tag := Tag{}
+        err = orm.Where("id=?", tagId).Find(&tag)
+        Check(err)
+        tagList = append(tagList, tag.Name)
+    }
+    tags = strings.Join(tagList, ", ")
+    return
+}

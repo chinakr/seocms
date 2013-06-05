@@ -42,6 +42,14 @@ func (this *ArticleController) Get() {
     this.Data["PageTitle"] = fmt.Sprintf("%s_%s_%s", article.Title, category.Name, beego.AppConfig.String("appname"))
     this.Data["PageDescription"] = article.Abstract
 
+    // 设置页面关键字
+    tags := FindTagsText(article.Id)
+    if tags == "" {
+        this.Data["PageKeywords"] = category.Name
+    } else {
+        this.Data["PageKeywords"] = category.Name + ", " + tags
+    }
+
     // 设置Template文件(默认自动渲染)
     this.TplNames = "article/article.tpl"
 }

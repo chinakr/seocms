@@ -1,6 +1,9 @@
+/* 分类列表页(默认列表页) */
+
 package controllers
 
 import (
+    "fmt"
     //"github.com/astaxie/beedb"
     "github.com/astaxie/beego"
 )
@@ -30,6 +33,9 @@ func (this *ListController) Get() {
         Check(err)
         this.Data["Articles"] = articles
 
+        // 设置页面标题
+        this.Data["PageTitle"] = beego.AppConfig.String("appname")
+
         this.TplNames = "index.tpl"
     } else {    // 分类列表页
         // 获取当前分类
@@ -45,6 +51,9 @@ func (this *ListController) Get() {
         err = orm.Where("category=?", category.Id).OrderBy("-pubdate").Limit(ItemsPerPage).FindAll(&articles)
         Check(err)
         this.Data["Articles"] = articles
+
+        // 设置页面标题
+        this.Data["PageTitle"] = fmt.Sprintf("%s相关文章_%s", category.Name, beego.AppConfig.String("appname"))
 
         this.TplNames = "list/category_list.tpl"
     }

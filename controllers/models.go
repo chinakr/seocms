@@ -100,7 +100,7 @@ func FindTags(articleId int) (tags string) {
         tag := Tag{}
         err = orm.Where("id=?", tagId).Find(&tag)
         Check(err)
-        tagItem := fmt.Sprintf("<li><a href=\"/t%d/\" target=\"_blank\">%s</a></li>", tag.Id, tag.Name)
+        tagItem := fmt.Sprintf("<li><a href=\"/t/%d/\" target=\"_blank\">%s</a></li>", tag.Id, tag.Name)
         tagList = append(tagList, tagItem)
     }
     tags = strings.Join(tagList, "\n")

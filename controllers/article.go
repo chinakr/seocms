@@ -1,6 +1,7 @@
 package controllers
 
 import (
+    "fmt"
     "github.com/astaxie/beego"
 )
 
@@ -36,6 +37,8 @@ func (this *ArticleController) Get() {
     err = orm.Where("id=?", articleId).Find(&article)
     Check(err)
     this.Data["Article"] = article
+
+    this.Data["PageTitle"] = fmt.Sprintf("%s_%s_%s", article.Title, category.Name, beego.AppConfig.String("appname"))
 
     // 设置Template文件(默认自动渲染)
     this.TplNames = "article/article.tpl"

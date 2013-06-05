@@ -127,5 +127,30 @@ func FindTagsText(articleId int) (tags string) {
 
 // 根据文章总数、每页文章数、当前页码，生成Bootstrap格式的分页导航HTML代码
 func GetPaginator(total, itemsPerPage, pagenum int) (paginator string) {
-    return `<li><a href="#">test</a></li>`
+    //return `<li><a href="#">test</a></li>`
+    maxPagenum := total / itemsPerPage + 1    // 总页数
+    if pagenum > maxPagenum {    // 如果当前页码不合法，那么返回空字符串
+        return ""
+    }
+    if maxPagenum == 1 {    // 如果一共只有1页，那么直接返回分页导航代码
+        return `<li class="disabled"><a href="#">上一页</a></li>
+<li class="active"><a href="#">第1页，共1页</a></li>
+<li class="disabled"><a href="#">下一页</a></li>`
+    }
+    if pagenum == 1 && pagenum < maxPagenum {    // 当前页是第1页时
+        return fmt.Sprintf(`<li class="disabled"><a href="#">上一页</a></li>
+<li class="active"><a href="#">第1页，共%d页</a></li>
+<li><a href="?page=%d">下一页</a></li>`, maxPagenum, pagenum+1)
+    }
+    if pagenum == maxPagenum {    // 当前页是最后1页时
+        return fmt.Sprintf(`<li><a href="?page=%d">上一页</a></li>
+<li class="active"><a href="#">第%d页, 共%d页</a></li>
+<li class="disabled"><a href="#">下一页</a></li>`, pagenum-1, maxPagenum, maxPagenum)
+    }
+    if pagenum > 1 && pagenum < maxPagenum {    // 当前页不是首尾页时
+        return fmt.Sprintf(`<li><a href="?page=%d">上一页</a></li>
+<li class="active"><a href="#">第%d页, 共%d页</a></li>
+<li><a href="?page=%d">下一页</a></li>`, pagenum-1, pagenum, maxPagenum, pagenum+1)
+    }
+    return
 }

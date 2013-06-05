@@ -14,7 +14,7 @@ type ListController struct {
 
 const (
     SiteName = "SEOCMS"    // 网站名称
-    ItemsPerPage = 5    // 列表页上每页显示文章数量
+    ItemsPerPage = 10    // 列表页上每页显示文章数量
 )
 
 func (this *ListController) Get() {
@@ -26,7 +26,7 @@ func (this *ListController) Get() {
     // 获取分类列表，用于导航栏
     this.Data["Categories"] = GetCategories()
 
-    // 获得当前页码
+    // 获取当前页码
     pagenumInt64, err := this.GetInt("page")
     //Check(err)
     pagenum := int(pagenumInt64)
@@ -39,23 +39,23 @@ func (this *ListController) Get() {
     }
 
     // 计算起始文章序号
-    start := (int(pagenum) -1) * ItemsPerPage
+    start := (pagenum -1) * ItemsPerPage
 
     if categoryNameEn == "" {    // 首页
-        // 获得文章总数
+        // 获取文章总数
         orm = InitDb()
         allArticles := []Article{}
         err = orm.FindAll(&allArticles)
         total := len(allArticles)    // 文章总数
         Debug("There are %d articles in total.", total)
 
-        // 获得当前页的文章列表
+        // 获取当前页的文章列表
         articles := []Article{}
         err = orm.OrderBy("-pubdate").Limit(ItemsPerPage, start).FindAll(&articles)
         Check(err)
         this.Data["Articles"] = articles
 
-        // 获得分页导航HTML代码
+        // 获取分页导航HTML代码
         paginator := GetPaginator(total, ItemsPerPage, pagenum)
         this.Data["Paginator"] = paginator
 
@@ -71,12 +71,22 @@ func (this *ListController) Get() {
         Check(err)
         this.Data["Category"] = category
 
-        // 获取当前分类文章列表
-        orm = InitDb()
+        // 获取当前分类文章总数
+        allArticles := []Article{}
+        err = orm.Where("category=?", category.Id).FindAll(&allArticles)
+        total := len(allArticles)    // 文章总数
+        Debug("There are %d articles in total in category `%s`.", total, category.Name)
+
+
+        // 获取当前分类当前页的文章列表
         articles := []Article{}
-        err = orm.Where("category=?", category.Id).OrderBy("-pubdate").Limit(ItemsPerPage).FindAll(&articles)
+        err = orm.Where("category=?", category.Id).OrderBy("-pubdate").Limit(ItemsPerPage, start).FindAll(&articles)
         Check(err)
         this.Data["Articles"] = articles
+
+        // 获取分页导航HTML代码
+        paginator := GetPaginator(total, ItemsPerPage, pagenum)
+        this.Data["Paginator"] = paginator
 
         // 设置页面标题
         this.Data["PageTitle"] = fmt.Sprintf("%s相关文章_%s", category.Name, beego.AppConfig.String("appname"))

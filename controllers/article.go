@@ -38,7 +38,9 @@ func (this *ArticleController) Get() {
     Check(err)
     this.Data["Article"] = article
 
+    // 设置页面标题、页面描述
     this.Data["PageTitle"] = fmt.Sprintf("%s_%s_%s", article.Title, category.Name, beego.AppConfig.String("appname"))
+    this.Data["PageDescription"] = article.Abstract
 
     // 设置Template文件(默认自动渲染)
     this.TplNames = "article/article.tpl"

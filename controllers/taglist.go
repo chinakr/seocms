@@ -74,5 +74,8 @@ func (this *TagListController) Get() {
     // 设置页面标题
     this.Data["PageTitle"] = fmt.Sprintf("%s相关文章_%s", tag.Name, beego.AppConfig.String("appname"))
 
+    // 设置边栏
+    this.Data["Sidebar"] = GetSidebar("tag", tag.Id)
+
     this.TplNames = "list/tag_list.tpl"
 }

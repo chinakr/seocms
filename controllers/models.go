@@ -55,6 +55,10 @@ type SidebarCategory struct {    // 分类列表页边栏
     Tags []Tag
 }
 
+type SidebarTag struct {    // 标签列表页边栏
+    Tags []Tag
+}
+
 func InitDb() (orm beedb.Model) {
     database := "seocms"
     username := "seocms"
@@ -170,8 +174,10 @@ func GetPaginator(total, itemsPerPage, pagenum int) (paginator string) {
 func GetSidebar(pageType string, typeId int) (sidebar string) {
     if pageType == "home" {
         sidebar = GetSidebarHome()
-    } else if pageType == "category-list" {
+    } else if pageType == "category" {
         sidebar = GetSidebarCategory(typeId)
+    } else if pageType == "tag" {
+        sidebar = GetSidebarTag(typeId)
     } else {
         sidebar = `<div class="tags-cloud well">
     <span class="item">标签1</span>
@@ -209,6 +215,8 @@ func GetSidebarHome() (sidebar string) {
 func GetSidebarCategory(categoryId int) (sidebar string) {
     //return "category list sidebar"
 
+    // TO-DO: 性能优化
+
     // 获得分类下的全部文章
     orm := InitDb()
     articles := []Article{}
@@ -241,6 +249,55 @@ func GetSidebarCategory(categoryId int) (sidebar string) {
         Tags: tags,
     }
     err = t.Execute(&content, sidebarCategory)
+    Check(err)
+    sidebar = content.String()
+    return
+}
+
+// 返回标签列表页边栏的HTML代码
+func GetSidebarTag(tagId int) (sidebar string) {
+    //return "tag list sidebar"
+
+    // TO-DO: 性能优化
+
+    // 获得标签相关的所有文章
+    articleIdMap := map[int]bool{}
+    articleTagsList := []ArticleTags{}
+    err = orm.Where("tag=?", tagId).FindAll(&articleTagsList)
+    Check(err)
+    for _, articleTags := range(articleTagsList) {
+        articleIdMap[articleTags.Article] = true
+    }
+
+    // 获得所有文章的所有标签
+    tagIdMap := map[int]bool{}
+    for articleId, _ := range(articleIdMap) {
+        allArticleTagsList := []ArticleTags{}
+        err = orm.Where("article=?", articleId).FindAll(&allArticleTagsList)
+        Check(err)
+        for _, articleTags := range(allArticleTagsList) {
+            tagIdMap[articleTags.Tag] = true
+        }
+    }
+    tags := []Tag{}
+    for curTagId, _ := range(tagIdMap) {
+        if curTagId == tagId {
+            continue
+        }
+        tag := Tag{}
+        err = orm.Where("id=?", curTagId).Find(&tag)
+        Check(err)
+        tags = append(tags, tag)
+    }
+
+    // 渲染边栏模板文件
+    t, err := template.ParseFiles("views/sidebar_tag.tpl")
+    Check(err)
+    var content bytes.Buffer
+    sidebarTag := SidebarTag{
+        Tags: tags,
+    }
+    err = t.Execute(&content, sidebarTag)
     Check(err)
     sidebar = content.String()
     return

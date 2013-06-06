@@ -95,7 +95,7 @@ func (this *ListController) Get() {
         this.Data["PageTitle"] = fmt.Sprintf("%s相关文章_%s", category.Name, beego.AppConfig.String("appname"))
 
         // 设置边栏
-        this.Data["Sidebar"] = GetSidebar("category-list", category.Id)
+        this.Data["Sidebar"] = GetSidebar("category", category.Id)
 
         this.TplNames = "list/category_list.tpl"
     }

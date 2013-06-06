@@ -24,6 +24,7 @@ func main() {
     beego.AddFuncMap("id2categoryEn", controllers.Id2categoryEn)    // 根据分类ID，获得分类英文名称
     beego.AddFuncMap("isSelected", controllers.IsSelected)    // 如果当前分类被选中，返回字符串`selected`
     beego.AddFuncMap("findTags", controllers.FindTags)    // 根据文章ID，获得文章标签列表
+    beego.AddFuncMap("getSidebar", controllers.GetSidebar)    // 根据页面类型，获得边栏HTML代码；页面类型包括：首页、分类列表页、标签列表页和文章内容页
 
     beego.Run()
 }

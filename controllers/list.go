@@ -62,6 +62,9 @@ func (this *ListController) Get() {
         // 设置页面标题
         this.Data["PageTitle"] = beego.AppConfig.String("appname")
 
+        // 设置页面类型
+        this.Data["Sidebar"] = GetSidebar("home", 0)
+
         this.TplNames = "index.tpl"
     } else {    // 分类列表页
         // 获取当前分类

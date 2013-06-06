@@ -154,3 +154,12 @@ func GetPaginator(total, itemsPerPage, pagenum int) (paginator string) {
     }
     return
 }
+
+// 根据页面类型和类型ID，返回页面边栏的HTML代码
+func GetSidebar(pageType string, typeId int) (sidebar string) {
+    return `<div class="tags-cloud well">
+    <span class="item">标签1</span>
+    <span class="item">标签2</span>
+    <span class="item">标签3</span>
+</div>`
+}

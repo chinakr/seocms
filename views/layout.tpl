@@ -32,11 +32,12 @@
                 {{.LayoutContent}}
             </div><!-- End .main -->
             <div class="sidebar span4">
+                {{str2html .Sidebar}}
             </div><!-- End .sidebar -->
         </div><!-- End .row -->
     </div><!-- End .content -->
     <div class="footer">
-        <p>&copy; 2013 SEOCMS Developed by <a href="http://weibo.com/chinakr" target="_blank">chinakr</a></p>
+        {{template "footer.tpl"}}
     </div><!-- End .footer -->
 </div><!-- End .container -->
 </body>

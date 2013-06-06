@@ -59,6 +59,10 @@ type SidebarTag struct {    // 标签列表页边栏
     Tags []Tag
 }
 
+type SidebarArticle struct {    // 文章内容页边栏
+    Articles []Article
+}
+
 func InitDb() (orm beedb.Model) {
     database := "seocms"
     username := "seocms"
@@ -178,7 +182,9 @@ func GetSidebar(pageType string, typeId int) (sidebar string) {
         sidebar = GetSidebarCategory(typeId)
     } else if pageType == "tag" {
         sidebar = GetSidebarTag(typeId)
-    } else {
+    } else if pageType == "article" {
+        sidebar = GetSidebarArticle(typeId)
+    }else {
         sidebar = `<div class="tags-cloud well">
     <span class="item">标签1</span>
     <span class="item">标签2</span>
@@ -261,6 +267,7 @@ func GetSidebarTag(tagId int) (sidebar string) {
     // TO-DO: 性能优化
 
     // 获得标签相关的所有文章
+    orm := InitDb()
     articleIdMap := map[int]bool{}
     articleTagsList := []ArticleTags{}
     err = orm.Where("tag=?", tagId).FindAll(&articleTagsList)
@@ -298,6 +305,54 @@ func GetSidebarTag(tagId int) (sidebar string) {
         Tags: tags,
     }
     err = t.Execute(&content, sidebarTag)
+    Check(err)
+    sidebar = content.String()
+    return
+}
+
+// 返回文章内容页边栏的HTML代码
+func GetSidebarArticle(articleId int) (sidebar string) {
+    //return "article sidebar"
+
+    // TO-DO: 性能优化
+
+    // 获得相关标签的所有文章
+    orm := InitDb()
+    articleTagsList := []ArticleTags{}
+    err = orm.Where("article=?", articleId).FindAll(&articleTagsList)
+    Check(err)
+    articleIdMap := map[int]bool{}
+    for _, articleTags := range(articleTagsList) {
+        curArticleTagsList := []ArticleTags{}
+        err = orm.Where("tag=?", articleTags.Tag).FindAll(&curArticleTagsList)
+        Check(err)
+        for _, curArticleTags := range(curArticleTagsList) {
+            articleIdMap[curArticleTags.Article] = true
+        }
+    }
+    articles := []Article{}
+    for curArticleId, _ := range(articleIdMap) {
+        if curArticleId == articleId {
+            continue
+        }
+        article := Article{}
+        err = orm.Where("id=?", curArticleId).Find(&article)
+        Check(err)
+        articles = append(articles, article)
+    }
+
+    // 渲染边栏模板文件
+    t := template.New("sidebar_article.tpl")    // 必须和模板文件同名！
+    t.Funcs(template.FuncMap{"id2categoryEn": Id2categoryEn})
+    //t, err = t.Parse("{{range .Articles}}{{id2categoryEn .Category}}{{end}}")
+    t, err = t.ParseFiles("views/sidebar_article.tpl")
+    Check(err)
+    var content bytes.Buffer
+    sidebarArticle := SidebarArticle{
+        Articles: articles,
+    }
+    err = t.Execute(&content, sidebarArticle)
+    //err = t.ExecuteTemplate(&content, "article", sidebarArticle)
     Check(err)
     sidebar = content.String()
     return

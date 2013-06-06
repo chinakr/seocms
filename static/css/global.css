@@ -110,6 +110,9 @@ body {
     margin: 0;
     text-align: justify;
 }
+.sidebar .recommends ul {
+    text-align: left;
+}
 .sidebar li {
     /* float: left; */
     margin-right: 10px;

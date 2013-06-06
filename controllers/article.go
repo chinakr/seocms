@@ -11,7 +11,7 @@ type ArticleController struct {
 
 func (this *ArticleController) Get() {
     // 设置Template布局文件
-    this.Layout = "layout.tpl"
+    this.Layout = "layout_article.tpl"
 
     // 设置网站名称
     this.Data["SiteName"] = SiteName
@@ -49,6 +49,9 @@ func (this *ArticleController) Get() {
     } else {
         this.Data["PageKeywords"] = category.Name + ", " + tags
     }
+
+    // 设置边栏
+    this.Data["Sidebar"] = GetSidebar("article", article.Id)
 
     // 设置Template文件(默认自动渲染)
     this.TplNames = "article/article.tpl"

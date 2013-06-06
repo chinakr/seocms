@@ -1,10 +1,12 @@
 package controllers
 
 import (
+    "bytes"
     "github.com/astaxie/beedb"
     _ "github.com/ziutek/mymysql/godrv"
     "database/sql"
     "fmt"
+    "html/template"
     "strings"
     "time"
 )
@@ -42,6 +44,11 @@ type ArticleTags struct {    // 文章-标签对应关系
     Id int    // 文章-标签ID
     Article int    // 文章ID
     Tag int    // 标签ID
+}
+
+type SidebarHome struct {    // 首页边栏
+    Tags []Tag
+    //FriendLinks []FriendLink
 }
 
 func InitDb() (orm beedb.Model) {
@@ -157,9 +164,34 @@ func GetPaginator(total, itemsPerPage, pagenum int) (paginator string) {
 
 // 根据页面类型和类型ID，返回页面边栏的HTML代码
 func GetSidebar(pageType string, typeId int) (sidebar string) {
-    return `<div class="tags-cloud well">
+    if pageType == "home" {
+        return GetSidebarHome()
+    } else {
+        return `<div class="tags-cloud well">
     <span class="item">标签1</span>
     <span class="item">标签2</span>
     <span class="item">标签3</span>
 </div>`
+    }
+}
+
+// 返回首页边栏的HTML代码
+func GetSidebarHome() (sidebar string) {
+    //return "test"
+
+    // 获得全部标签列表
+    tags := []Tag{}
+    err = orm.FindAll(&tags)
+    Check(err)
+
+    t, err := template.ParseFiles("views/sidebar.tpl")
+    Check(err)
+    var content bytes.Buffer
+    sidebarHome := SidebarHome{
+        Tags: tags,
+    }
+    err = t.Execute(&content, sidebarHome)
+    Check(err)
+    sidebar = content.String()
+    return
 }

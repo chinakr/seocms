@@ -28,10 +28,10 @@
     </div><!-- End .header -->
     <div class="content">
         <div class="row">
-            <div class="main span8">
+            <div class="main span9">
                 {{.LayoutContent}}
             </div><!-- End .main -->
-            <div class="sidebar span4">
+            <div class="sidebar span3">
                 {{str2html .Sidebar}}
             </div><!-- End .sidebar -->
         </div><!-- End .row -->

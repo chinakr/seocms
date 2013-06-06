@@ -96,3 +96,27 @@ body {
     font-weight: normal;
     font-family: monospace;
 }
+
+/* 设置边栏样式 */
+.sidebar h2 {
+    font-size: 18px;
+    line-height: 24px;
+    color: #666666;
+    margin-bottom: 10px;
+    padding-bottom: 2px;
+    border-bottom: 2px solid #DDDDDD;
+}
+.sidebar ul {
+    list-style-type: none;
+    margin: 0;
+    text-align: justify;
+}
+.sidebar li {
+    /* float: left; */
+    margin-right: 10px;
+    display: inline;
+    white-space: nowrap;
+}
+.sidebar div {
+    margin-bottom: 10px;
+}

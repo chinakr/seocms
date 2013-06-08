@@ -1,6 +1,6 @@
 <div class="sidebar">
     <div class="tags-cloud">
-        <h2>热门话题</h2>
+        <span class="more"><a href="/tags/" target="_blank">更多</a></span><h2>热门话题</h2>
         <ul>
             {{range .Tags}}
             <li><a href="/t/{{.Id}}/" target="_blank">{{.Name}}</a></li>

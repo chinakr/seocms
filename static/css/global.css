@@ -122,3 +122,19 @@ body {
 .sidebar div {
     margin-bottom: 10px;
 }
+.sidebar span.more {
+    float: right;
+    line-height: 43px;
+    margin-right: 5px;
+}
+
+/* 设置标签云页面的样式 */
+ul.tags-cloud {
+    list-style-type: none;
+    margin: 0;
+}
+ul.tags-cloud li {
+    margin-right: 10px;
+    display: inline;
+    white-space: nowrap;
+}

@@ -17,6 +17,7 @@ func main() {
     // 文章列表页和文章内容页
     beego.Router("/", &controllers.ListController{})    // 首页(文章列表)
     beego.Router("/t/:tagid([0-9]+)/", &controllers.TagListController{})    // 标签列表页
+    beego.Router("/tags", &controllers.TagsController{})    // 标签云；注：`/tags/`就不能匹配到，原因不明
     beego.Router("/:category(.+)/", &controllers.ListController{})    // 分类列表页
     beego.Router("/:category(.+)/:id([0-9]+)", &controllers.ArticleController{})    // 文章内容页
 

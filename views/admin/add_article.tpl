@@ -1,9 +1,6 @@
 <input type="hidden" name="location" value="add-article" />
-<ul class="breadcrumb">
-    <li><a href="/article/list">管理后台</a> <span class="divider">/</span></li>
-    <li><a href="/article/list">文章管理</a> <span class="divider">/</span>
-    <li class="active">添加文章</li>
-</ul><!-- End .breadcrumb -->
+{{$breadcrumb := breadcrumb "文章管理" "添加文章"}}
+{{str2html $breadcrumb}}
 <form method="post" class="form-horizontal add-article">
     <legend>添加文章</legend>
     <div class="control-group">

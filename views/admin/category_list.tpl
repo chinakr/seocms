@@ -1,9 +1,6 @@
 <input type="hidden" name="location" value="category-list" />
-<ul class="breadcrumb">
-    <li><a href="/article/list">管理后台</a> <span class="divider">/</span></li>
-    <li><a href="/category/list">分类管理</a> <span class="divider">/</span>
-    <li class="active">分类列表</li>
-</ul><!-- End .breadcrumb -->
+{{$breadcrumb := breadcrumb "分类管理" "分类列表"}}
+{{str2html $breadcrumb}}
 <table class="table table-striped table-hover category-list">
 <thead>
     <tr><th>分类名称</th><th>英文名称</th><th>管理</th></tr>

@@ -102,7 +102,7 @@ func (this *AdminController) Get() {
             tags = tags[2:]    // 利用切片删除开头多余的`, `
             this.Data["Tags"] = tags
 
-            this.Data["PageTitle"] = "编辑文章_文章管理_SEOCMS"
+            this.Data["PageTitle"] = "修改文章_文章管理_SEOCMS"
             this.TplNames = "admin/edit_article.tpl"
         case "delete":
             //this.Data["Id"] = this.Ctx.Params[":id"]

@@ -1,9 +1,6 @@
 <input type="hidden" name="location" value="edit-article" />
-<ul class="breadcrumb">
-    <li><a href="/article/list">管理后台</a> <span class="divider">/</span></li>
-    <li><a href="/article/list">文章管理</a> <span class="divider">/</span>
-    <li class="active">修改文章</li>
-</ul><!-- End .breadcrumb -->
+{{$breadcrumb := breadcrumb "文章管理" "修改文章"}}
+{{str2html $breadcrumb}}
 <div class="alert">
     <button class="close" data-dismiss="alert" type="button">&times;</button>
     <span>{{.Message}}</span>

@@ -1,9 +1,6 @@
 <input type="hidden" name="location" value="edit-category" />
-<ul class="breadcrumb">
-    <li><a href="/article/list">管理后台</a> <span class="divider">/</span></li>
-    <li><a href="/category/list">分类管理</a> <span class="divider">/</span>
-    <li class="active">修改分类</li>
-</ul><!-- End .breadcrumb -->
+{{$breadcrumb := breadcrumb "分类管理" "修改分类"}}
+{{str2html $breadcrumb}}
 <div class="alert">
     <button class="close" data-dismiss="alert" type="button">&times;</button>
     <span>{{.Message}}</span>

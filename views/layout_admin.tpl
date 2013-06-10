@@ -12,7 +12,7 @@
 <script src="/static/js/global.js"></script>
 </head>
 <body>
-<div class="container">
+<div class="container admin">
     <div class="header">
         <div class="navbar">
             <div class="navbar-inner">

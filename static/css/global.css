@@ -97,6 +97,11 @@ body {
     font-family: monospace;
 }
 
+/* 设置管理后台边栏样式 */
+div.admin .sidebar li {
+    display: block;
+}
+
 /* 设置边栏样式 */
 .sidebar h2 {
     font-size: 18px;

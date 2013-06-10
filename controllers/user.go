@@ -1,0 +1,37 @@
+/* 用户管理 */
+
+package controllers
+
+import (
+    "fmt"
+    //"github.com/astaxie/beedb"
+    "github.com/astaxie/beego"
+)
+
+type UserController struct {
+    beego.Controller
+}
+
+func (this *UserController) Get() {
+    this.Layout = "layout_admin.tpl"    // 后台管理模板布局文件
+    action := this.Ctx.Params[":action"]    // 用户的添加、修改或删除
+    SiteName := beego.AppConfig.String("appname")    // 网站名称
+    ChannelName := "用户管理"    // 频道名称
+    switch action {
+    case "":    // 用户列表
+        this.Data["PageTitle"] = fmt.Sprintf("用户列表_%s_%s", ChannelName, SiteName)
+        this.TplNames = "admin/user_list.tpl"    // 页面模板文件
+    case "add":    // 添加用户
+        this.Data["PageTitle"] = fmt.Sprintf("添加用户_%s_%s", ChannelName, SiteName)    // 页面标题
+        this.TplNames = "admin/add_user.tpl"    // 页面模板文件
+    case "edit":    // 编辑用户
+        this.Data["PageTitle"] = fmt.Sprintf("编辑用户_%s_%s", ChannelName, SiteName)    // 页面标题
+        id := this.Ctx.Params[":id"]    // 用户ID
+        Debug("Current user ID is `%s`", id)
+        this.TplNames = "admin/edit_user.tpl"    // 页面模板文件
+    case "delete":    // 删除用户
+        id := this.Ctx.Params[":id"]    // 用户ID
+        Debug("Current user ID is `%s`", id)
+        this.Ctx.Redirect(302, "/user/")    // 返回用户列表页面
+    }
+}

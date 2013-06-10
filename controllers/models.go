@@ -73,6 +73,26 @@ func InitDb() (orm beedb.Model) {
     return
 }
 
+// 根据管理后台的频道名称、页面名称，返回面包屑
+func Breadcrumb(channel, page string) (breadcrumb string) {
+    // 频道列表：频道名称 -> 频道URL
+    channels := map[string]string{
+        "文章管理": "/article/list",
+        "分类管理": "/category/list",
+        "用户管理": "/user/",
+    }
+
+    // Bootstrap面包屑HTML模板
+    template := `<ul class="breadcrumb">
+    <li><a href="/admin/">管理后台</a> <span class="divider">/</span></li>
+    <li><a href="%s">%s</a> <span class="divider">/<span></li>
+    <li class="active">%s</li>
+</ul><!-- End .breadcrumb -->
+`
+    //return fmt.Sprintf(template, "#", "频道名称", "页面名称")    // DEBUG
+    return fmt.Sprintf(template, channels[channel], channel, page)    // 面包屑HTML代码
+}
+
 // 在模板中根据分类ID得到分类名称
 func Id2category(id int) (category string) {
     orm := InitDb()

@@ -34,7 +34,7 @@
                         <li class="category-list"><a href="/category/list">分类列表</a></li>
                         <li class="add-category"><a href="/category/add">添加分类</a></li>
                         <li class="nav-header">用户管理</li>
-                        <li class="user-list"><a href="/user/list">用户列表</a></li>
+                        <li class="user-list"><a href="/user/">用户列表</a></li>
                         <li class="add-user"><a href="/user/add">添加用户</a></li>
                     </ul><!-- End .nav -->
                 </div><!-- End .well -->

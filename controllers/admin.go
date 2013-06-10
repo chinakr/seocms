@@ -1,3 +1,9 @@
+/* 后台管理
+
+分类的列表、添加、修改、删除。
+文章的列表、添加、修改、删除。
+*/
+
 package controllers
 
 import (
@@ -122,7 +128,7 @@ func (this *AdminController) Get() {
             orm.Delete(&article)
 
             // 返回文章列表
-            this.Ctx.Redirect(301, "/article/list")
+            this.Ctx.Redirect(302, "/article/list")
         }
     } else if object == "category" {
         switch action {

@@ -46,6 +46,16 @@ type ArticleTags struct {    // 文章-标签对应关系
     Tag int    // 标签ID
 }
 
+type User struct {    // 用户
+    Id int    // 用户ID
+    Email string    // 用户Email
+    Name string    // 用户名
+    Password string    // 密码；加密形式
+    Created time.Time    // 用户创建时间
+    Updated time.Time    // 用户最后修改时间
+    LastLogin time.Time    // 用户最后登录时间
+}
+
 type SidebarHome struct {    // 首页边栏
     Tags []Tag
     //FriendLinks []FriendLink

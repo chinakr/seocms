@@ -1,7 +1,5 @@
 {{$breadcrumb := breadcrumb "用户管理" "添加用户"}}
 {{str2html $breadcrumb}}
-{{$message := alert .Message}}
-{{str2html $message}}
 <form method="post" class="form-horizontal add-user">
     <legend>添加用户</legend>
     <div class="control-group">

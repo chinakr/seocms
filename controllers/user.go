@@ -6,6 +6,7 @@ import (
     "fmt"
     //"github.com/astaxie/beedb"
     "github.com/astaxie/beego"
+    "time"
 )
 
 type UserController struct {
@@ -45,6 +46,18 @@ func (this *UserController) Post() {
         name := this.Input().Get("name")    // 用户名
         password := this.Input().Get("password")    // 密码
         rePassword := this.Input().Get("re-password")    // 重复输入的密码
+
+        // 检测E-mail或密码是否为空
+        if email == "" || name == "" {
+            this.Data["Message"] = "E-mail或用户名为空"
+            this.Data["Email"] = email
+            this.Data["Name"] = name
+            this.Data["Password"] = password
+            this.TplNames = "admin/add_user.tpl"
+            return
+        }
+
+        // 如果两次输入的密码不一致，需重新填写
         if password != rePassword {
             this.Data["Message"] = "两次输入的密码不一致"
             this.Data["Email"] = email
@@ -53,6 +66,31 @@ func (this *UserController) Post() {
             this.TplNames = "admin/add_user.tpl"
             return
         }
+
+        // 检查E-mail或用户名是否已存在
+        orm = InitDb()
+        user := User{}
+        err = orm.Where("email=? or name=?", email, name).Find(&user)
+        if err == nil {
+            this.Data["Message"] = "E-mail或用户名已存在"
+            this.Data["Email"] = email
+            this.Data["Name"] = name
+            this.Data["Password"] = password
+            this.TplNames = "admin/add_user.tpl"
+            return
+        }
+
+        // 保存用户
+        orm = InitDb()
+        user = User{}
+        user.Email = email
+        user.Name = name
+        user.Password = password
+        user.Created = time.Now()
+        err = orm.Save(&user)
+        Check(err)
+        Debug("User `%s` added.", user)
+
         this.Ctx.Redirect(302, "/user/")    // 返回用户列表页面
     case "edit":    // 修改用户
         this.Ctx.Redirect(302, "/user/")    // 返回用户列表页面

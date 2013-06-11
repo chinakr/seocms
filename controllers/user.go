@@ -105,6 +105,51 @@ func (this *UserController) Post() {
 
         this.Ctx.Redirect(302, "/user/")    // 返回用户列表页面
     case "edit":    // 修改用户
+        id := this.Ctx.Params[":id"]    // 用户ID
+
+        email := this.Input().Get("email")    // 用户E-mail
+        name := this.Input().Get("name")    // 用户名
+        password := this.Input().Get("password")    // 密码
+        rePassword := this.Input().Get("re-password")    // 重复输入的密码
+
+        // 检测E-mail或密码是否为空
+        if email == "" || name == "" {
+            this.Data["Message"] = "E-mail或用户名为空"
+            this.Data["Email"] = email
+            this.Data["Name"] = name
+            this.Data["Password"] = password
+            this.TplNames = "admin/add_user.tpl"
+            return
+        }
+
+        // 如果两次输入的密码不一致，需重新填写
+        if password != rePassword {
+            this.Data["Message"] = "两次输入的密码不一致"
+            this.Data["Email"] = email
+            this.Data["Name"] = name
+            this.Data["Password"] = password
+            this.TplNames = "admin/add_user.tpl"
+            return
+        }
+
+        // 获得当前用户
+        orm = InitDb()
+        user := User{}
+        err = orm.Where("id=?", id).Find(&user)
+        Check(err)
+
+        // 更新用户信息
+        user.Email = email
+        user.Name = name
+        if password != "" {
+            user.Password = Sha1(password)
+        }
+        user.Updated = time.Now()
+
+        // 保存用户信息
+        err = orm.Save(&user)
+        Check(err)
+
         this.Ctx.Redirect(302, "/user/")    // 返回用户列表页面
     }
 }

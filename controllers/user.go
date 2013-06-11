@@ -85,7 +85,7 @@ func (this *UserController) Post() {
         user = User{}
         user.Email = email
         user.Name = name
-        user.Password = password
+        user.Password = Sha1(password)
         user.Created = time.Now()
         err = orm.Save(&user)
         Check(err)

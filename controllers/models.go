@@ -2,11 +2,13 @@ package controllers
 
 import (
     "bytes"
+    "crypto/sha1"
     "github.com/astaxie/beedb"
     _ "github.com/ziutek/mymysql/godrv"
     "database/sql"
     "fmt"
     "html/template"
+    "io"
     "strings"
     "time"
 )
@@ -396,5 +398,12 @@ func GetSidebarArticle(articleId int) (sidebar string) {
     //err = t.ExecuteTemplate(&content, "article", sidebarArticle)
     Check(err)
     sidebar = content.String()
+    return
+}
+
+func Sha1(originalString string) (encryptedString string) {
+    h := sha1.New()
+    io.WriteString(h, originalString)
+    encryptedString = fmt.Sprintf("%x", h.Sum(nil))
     return
 }

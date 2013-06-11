@@ -167,5 +167,40 @@ func (this *UserController) Post() {
         Check(err)
 
         this.Ctx.Redirect(302, "/user/")    // 返回用户列表页面
+    case "login":    // 用户登录
+        name := this.Input().Get("name")    // 用户名
+        password := this.Input().Get("password")    // 用户密码
+
+        errFlag := false    // 判断登录是否出错
+
+        // 检测用户名或密码是否为空
+        if name == "" || password == "" {
+            this.Data["Message"] = "用户名或密码为空"
+            errFlag = true
+        }
+
+        orm = InitDb()
+        user := User{}
+        err = orm.Where("name=? and password=?", name, Sha1(password)).Find(&user)
+        if err != nil {
+            this.Data["Message"] = "用户名或密码错误"
+            errFlag = true
+        } else {
+            this.Ctx.Redirect(302, "/admin/")    // 跳转到管理后台首页
+        }
+
+        // 显示用户登录页面，再次登录
+        if errFlag {
+            this.Data["Name"] = name
+            this.Data["Password"] = password
+            this.Layout = "layout_one.tpl"
+            SiteName := beego.AppConfig.String("appname")    // 网站名称
+            this.Data["SiteName"] = SiteName
+            this.Data["Categories"] = GetCategories()    // 分类列表，用于导航栏
+            this.TplNames = "admin/login.tpl"
+            return
+        }
+
+
     }
 }

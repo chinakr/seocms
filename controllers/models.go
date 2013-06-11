@@ -244,7 +244,8 @@ func GetSidebarHome() (sidebar string) {
     // 获得全部标签列表
     orm := InitDb()
     tags := []Tag{}
-    err = orm.FindAll(&tags)
+    err = orm.Limit(20).FindAll(&tags)    // 热门话题限制为20个
+    //err = orm.FindAll(&tags)
     Check(err)
 
     // 渲染边栏模板文件
@@ -339,6 +340,9 @@ func GetSidebarTag(tagId int) (sidebar string) {
         Check(err)
         tags = append(tags, tag)
     }
+    if len(tags) > 20 {
+        tags = tags[:20]    // 相关话题限制为20个
+    }
 
     // 渲染边栏模板文件
     t, err := template.ParseFiles("views/sidebar_tag.tpl")
@@ -383,6 +387,9 @@ func GetSidebarArticle(articleId int) (sidebar string) {
         Check(err)
         articles = append(articles, article)
     }
+    if len(articles) > 10 {
+        articles = articles[:10]    // 推荐阅读限制为10篇
+    }
 
     // 渲染边栏模板文件
     t := template.New("sidebar_article.tpl")    // 必须和模板文件同名！
@@ -401,6 +408,7 @@ func GetSidebarArticle(articleId int) (sidebar string) {
     return
 }
 
+// 用SHA1加密用户密码
 func Sha1(originalString string) (encryptedString string) {
     h := sha1.New()
     io.WriteString(h, originalString)

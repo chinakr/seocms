@@ -1,3 +1,4 @@
+<input type="hidden" name="location" value="add-user" />
 {{$breadcrumb := breadcrumb "用户管理" "添加用户"}}
 {{str2html $breadcrumb}}
 <form method="post" class="form-horizontal add-user">

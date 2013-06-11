@@ -20,7 +20,12 @@ func (this *UserController) Get() {
     ChannelName := "用户管理"    // 频道名称
     switch action {
     case "":    // 用户列表
-        this.Data["PageTitle"] = fmt.Sprintf("用户列表_%s_%s", ChannelName, SiteName)
+        users := []User{}
+        orm = InitDb()
+        err = orm.OrderBy("name").FindAll(&users)
+        Check(err)
+        this.Data["Users"] = users    // 用户列表
+        this.Data["PageTitle"] = fmt.Sprintf("用户列表_%s_%s", ChannelName, SiteName)    // 页面标题
         this.TplNames = "admin/user_list.tpl"    // 页面模板文件
     case "add":    // 添加用户
         this.Data["PageTitle"] = fmt.Sprintf("添加用户_%s_%s", ChannelName, SiteName)    // 页面标题

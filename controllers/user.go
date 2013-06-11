@@ -31,9 +31,16 @@ func (this *UserController) Get() {
         this.Data["PageTitle"] = fmt.Sprintf("添加用户_%s_%s", ChannelName, SiteName)    // 页面标题
         this.TplNames = "admin/add_user.tpl"    // 页面模板文件
     case "edit":    // 修改用户
-        this.Data["PageTitle"] = fmt.Sprintf("修改用户_%s_%s", ChannelName, SiteName)    // 页面标题
         id := this.Ctx.Params[":id"]    // 用户ID
         Debug("Current user ID is `%s`", id)
+
+        orm = InitDb()
+        user := User{}
+        err = orm.Where("id=?", id).Find(&user)
+        Check(err)
+        this.Data["User"] = user    // 当前用户
+
+        this.Data["PageTitle"] = fmt.Sprintf("修改用户_%s_%s", ChannelName, SiteName)    // 页面标题
         this.TplNames = "admin/edit_user.tpl"    // 页面模板文件
     case "delete":    // 删除用户
         id := this.Ctx.Params[":id"]    // 用户ID

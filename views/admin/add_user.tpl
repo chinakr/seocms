@@ -1,11 +1,13 @@
 {{$breadcrumb := breadcrumb "用户管理" "添加用户"}}
 {{str2html $breadcrumb}}
+{{$message := alert .Message}}
+{{str2html $message}}
 <form method="post" class="form-horizontal add-user">
     <legend>添加用户</legend>
     <div class="control-group">
         <label class="control-label" for="email">E-mail</label>
         <div class="controls">
-            <input type="email" id="email" name="email" placeholder="请输入E-mail地址" value="{{.email}}" />
+            <input type="email" id="email" name="email" placeholder="请输入E-mail地址" value="{{.Email}}" />
         </div>
     </div>
     <div class="control-group">

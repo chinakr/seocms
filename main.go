@@ -27,6 +27,7 @@ func main() {
 
     // 模板函数
     beego.AddFuncMap("breadcrumb", controllers.Breadcrumb)    // 根据管理后台的频道名称、页面名称，返回面包屑
+    beego.AddFuncMap("alert", controllers.Alert)    // 返回Bootstrap格式的提示信息HTML代码
     beego.AddFuncMap("id2category", controllers.Id2category)    // 根据分类ID，获得分类名称
     beego.AddFuncMap("id2categoryEn", controllers.Id2categoryEn)    // 根据分类ID，获得分类英文名称
     beego.AddFuncMap("isSelected", controllers.IsSelected)    // 如果当前分类被选中，返回字符串`selected`

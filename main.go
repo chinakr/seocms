@@ -17,6 +17,7 @@ func main() {
     beego.Router("/user", &controllers.UserController{})    // 用户列表；如果写成`/user/`无法匹配到
     beego.Router("/user/:action(add)", &controllers.UserController{})    // 添加用户
     beego.Router("/user/:action(edit|delete)/:id([0-9]+)", &controllers.UserController{})    // 编辑用户、删除用户
+    beego.Router("/user/:action(login|logout)", &controllers.UserController{})
 
     // 文章列表页和文章内容页
     beego.Router("/", &controllers.ListController{})    // 首页(文章列表)

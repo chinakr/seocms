@@ -17,6 +17,8 @@ func (this *UserController) Get() {
     this.Layout = "layout_admin.tpl"    // 后台管理模板布局文件
     action := this.Ctx.Params[":action"]    // 用户的添加、修改或删除
     SiteName := beego.AppConfig.String("appname")    // 网站名称
+    this.Data["SiteName"] = SiteName
+    this.Data["Categories"] = GetCategories()    // 分类列表，用于导航栏
     ChannelName := "用户管理"    // 频道名称
     switch action {
     case "":    // 用户列表
@@ -54,6 +56,12 @@ func (this *UserController) Get() {
         orm.Delete(&user)
 
         this.Ctx.Redirect(302, "/user/")    // 返回用户列表页面
+    case "login":    // 用户登录
+        this.Layout = "layout_one.tpl"    // 用户登录模板布局文件
+        this.TplNames = "admin/login.tpl"    // 页面模板文件
+    case "logout":    // 用户退出
+        this.Layout = "layout_one.tpl"    // 用户登录模板布局文件
+        this.TplNames = "admin/logout.tpl"    // 页面模板文件
     }
 }
 

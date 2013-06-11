@@ -24,8 +24,8 @@ func (this *UserController) Get() {
     case "add":    // 添加用户
         this.Data["PageTitle"] = fmt.Sprintf("添加用户_%s_%s", ChannelName, SiteName)    // 页面标题
         this.TplNames = "admin/add_user.tpl"    // 页面模板文件
-    case "edit":    // 编辑用户
-        this.Data["PageTitle"] = fmt.Sprintf("编辑用户_%s_%s", ChannelName, SiteName)    // 页面标题
+    case "edit":    // 修改用户
+        this.Data["PageTitle"] = fmt.Sprintf("修改用户_%s_%s", ChannelName, SiteName)    // 页面标题
         id := this.Ctx.Params[":id"]    // 用户ID
         Debug("Current user ID is `%s`", id)
         this.TplNames = "admin/edit_user.tpl"    // 页面模板文件
@@ -33,5 +33,16 @@ func (this *UserController) Get() {
         id := this.Ctx.Params[":id"]    // 用户ID
         Debug("Current user ID is `%s`", id)
         this.Ctx.Redirect(302, "/user/")    // 返回用户列表页面
+    }
+}
+
+func (this *UserController) Post() {
+    this.Layout = "layout_admin.tpl"    // 模板布局文件
+    action := this.Ctx.Params[":action"]    // 用户的添加或修改
+    switch action {
+    case "add":    // 添加用户
+        //
+    case "edit":    // 修改用户
+        //
     }
 }

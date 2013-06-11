@@ -173,9 +173,9 @@ func (this *AdminController) Get() {
 }
 
 func (this *AdminController) Post() {
+    this.Layout = "layout_admin.tpl"
     object := this.Ctx.Params[":object"]
     action := this.Ctx.Params[":action"]
-    this.Layout = "layout_admin.tpl"
     if object == "article" {
         switch action {
         case "add":    // 处理添加文章

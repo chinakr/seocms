@@ -45,6 +45,14 @@ func (this *UserController) Get() {
     case "delete":    // 删除用户
         id := this.Ctx.Params[":id"]    // 用户ID
         Debug("Current user ID is `%s`", id)
+
+        // 删除当前用户
+        orm = InitDb()
+        user := User{}
+        err = orm.Where("id=?", id).Find(&user)
+        Check(err)
+        orm.Delete(&user)
+
         this.Ctx.Redirect(302, "/user/")    // 返回用户列表页面
     }
 }

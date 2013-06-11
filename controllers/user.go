@@ -61,6 +61,7 @@ func (this *UserController) Get() {
         this.TplNames = "admin/login.tpl"    // 页面模板文件
     case "logout":    // 用户退出
         this.Layout = "layout_one.tpl"    // 用户登录模板布局文件
+        this.DelSession("account")    // 删除session中的用户登录信息
         this.TplNames = "admin/logout.tpl"    // 页面模板文件
     }
 }
@@ -185,7 +186,10 @@ func (this *UserController) Post() {
         if err != nil {
             this.Data["Message"] = "用户名或密码错误"
             errFlag = true
-        } else {
+        } else {    // 用户名、密码验证成功
+            // 保存用户登录信息
+            this.SetSession("account", name)
+
             this.Ctx.Redirect(302, "/admin/")    // 跳转到管理后台首页
         }
 

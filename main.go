@@ -35,6 +35,8 @@ func main() {
     beego.AddFuncMap("findTags", controllers.FindTags)    // 根据文章ID，获得文章标签列表
     beego.AddFuncMap("getSidebar", controllers.GetSidebar)    // 根据页面类型，获得边栏HTML代码；页面类型包括：首页、分类列表页、标签列表页和文章内容页
 
+    beego.SessionOn = true    // 启用session
+
     beego.Run()
 }
 

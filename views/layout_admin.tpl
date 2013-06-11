@@ -15,11 +15,13 @@
 <div class="container admin">
     <div class="header">
         <div class="navbar">
+            <ul class="nav pull-right">
+                <li class="account"><a>{{.Account}}</a></li>
+                <li><a href="/user/logout">退出</a></li>
+            </ul>
             <div class="navbar-inner">
                 <a class="brand" href="/admin">SEOCMS后台管理</a>
             </div>
-            <ul class="nav">
-            </ul>
         </div><!-- End .navbar -->
     </div><!-- End .header -->
     <div class="content">

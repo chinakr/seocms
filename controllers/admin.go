@@ -31,14 +31,15 @@ func (this *AdminController) Get() {
 
     this.Layout = "layout_admin.tpl"
 
-    // 检测用户是否登录
-    account := this.GetSession("account")
-    Debug("Current user is `%s`.", account)
-    if account == nil {    // 用户未登录
-        this.Ctx.Redirect(302, "/user/login")    // 跳转到用户登录页面
-    } else {
-        this.Data["Account"] = account
-    }
+    //// 检测用户是否登录
+    //account := this.GetSession("account")
+    //Debug("Current user is `%s`.", account)
+    //if account == nil {    // 用户未登录
+    //    this.Ctx.Redirect(302, "/user/login")    // 跳转到用户登录页面
+    //} else {
+    //    this.Data["Account"] = account
+    //}
+    CheckLogin(this)
 
     object := this.Ctx.Params[":object"]
     action := this.Ctx.Params[":action"]
@@ -185,14 +186,15 @@ func (this *AdminController) Get() {
 func (this *AdminController) Post() {
     this.Layout = "layout_admin.tpl"
 
-    // 检测用户是否登录
-    account := this.GetSession("account")
-    Debug("Current user is `%s`.", account)
-    if account == "" {    // 用户未登录
-        this.Ctx.Redirect(302, "/user/login")    // 跳转到用户登录页面
-    } else {
-        this.Data["Account"] = account
-    }
+    //// 检测用户是否登录
+    //account := this.GetSession("account")
+    //Debug("Current user is `%s`.", account)
+    //if account == "" {    // 用户未登录
+    //    this.Ctx.Redirect(302, "/user/login")    // 跳转到用户登录页面
+    //} else {
+    //    this.Data["Account"] = account
+    //}
+    CheckLogin(this)
 
     object := this.Ctx.Params[":object"]
     action := this.Ctx.Params[":action"]

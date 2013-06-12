@@ -415,3 +415,15 @@ func Sha1(originalString string) (encryptedString string) {
     encryptedString = fmt.Sprintf("%x", h.Sum(nil))
     return
 }
+
+// 检测用户是否登录
+func CheckLogin(this *AdminController) (flag bool) {
+    account := this.GetSession("account")
+    Debug("Current user is `%s`.", account)
+    if account == nil {    // 用户未登录
+        this.Ctx.Redirect(302, "/user/login")    // 跳转到用户登录页面
+    } else {
+        this.Data["Account"] = account
+    }
+    return true
+}

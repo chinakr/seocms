@@ -169,6 +169,15 @@ func (this *UserController) Post() {
 
         this.Ctx.Redirect(302, "/user/")    // 返回用户列表页面
     case "login":    // 用户登录
+        // 如果不存在任何用户，那么直接以admin身份登录
+        orm = InitDb()
+        users := []User{}
+        err = orm.FindAll(&users)
+        if err == nil && len(users) == 0 {
+            this.SetSession("account", "admin")
+            this.Ctx.Redirect(302, "/admin/")
+        }
+
         name := this.Input().Get("name")    // 用户名
         password := this.Input().Get("password")    // 用户密码
 

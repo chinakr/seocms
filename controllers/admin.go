@@ -7,6 +7,7 @@
 package controllers
 
 import (
+    "fmt"
     "github.com/astaxie/beedb"
     "github.com/astaxie/beego"
     "time"
@@ -22,6 +23,7 @@ var (
 )
 
 func (this *AdminController) Get() {
+    this.Data["SiteName"] = SiteName    // 网站名称
     pageUrl := this.Ctx.Request.RequestURI
     Debug("The URL is `%s`.", pageUrl)
     if pageUrl == "/admin" || pageUrl == "/admin/" {    // 管理后台首页设置为文章列表页
@@ -46,7 +48,7 @@ func (this *AdminController) Get() {
     if object == "article" {
         switch action {
         case "list":
-            this.Data["PageTitle"] = "文章列表_文章管理_SEOCMS"
+            this.Data["PageTitle"] = fmt.Sprintf("文章列表_文章管理_%s", SiteName)
             articles := []Article{}
             orm = InitDb()
             err = orm.OrderBy("-pubdate").FindAll(&articles)
@@ -54,7 +56,7 @@ func (this *AdminController) Get() {
             this.Data["Articles"] = articles
             this.TplNames = "admin/article_list.tpl"
         case "add":
-            this.Data["PageTitle"] = "添加文章_文章管理_SEOCMS"
+            this.Data["PageTitle"] = fmt.Sprintf("添加文章_文章管理_%s", SiteName)
 
             //this.Data["Categories"] = []string{"博客", "笔记"}    // 测试数据
             orm = InitDb()
@@ -113,7 +115,7 @@ func (this *AdminController) Get() {
             tags = tags[2:]    // 利用切片删除开头多余的`, `
             this.Data["Tags"] = tags
 
-            this.Data["PageTitle"] = "修改文章_文章管理_SEOCMS"
+            this.Data["PageTitle"] = fmt.Sprintf("修改文章_文章管理_%s", SiteName)
             this.TplNames = "admin/edit_article.tpl"
         case "delete":
             //this.Data["Id"] = this.Ctx.Params[":id"]
@@ -148,11 +150,11 @@ func (this *AdminController) Get() {
             orm = InitDb()
             err = orm.OrderBy("name").FindAll(&categories)
             Check(err)
-            this.Data["PageTitle"] = "分类列表_文章管理_SEOCMS"
+            this.Data["PageTitle"] = fmt.Sprintf("分类列表_文章管理_%s", SiteName)
             this.Data["Categories"] = categories
             this.TplNames = "admin/category_list.tpl"
         case "add":    // 添加分类
-            this.Data["PageTitle"] = "添加分类_文章管理_SEOCMS"
+            this.Data["PageTitle"] = fmt.Sprintf("添加分类_文章管理_%s", SiteName)
             this.TplNames = "admin/add_category.tpl"
         case "edit":    // 修改分类
             id := this.Ctx.Params[":id"]
@@ -164,7 +166,7 @@ func (this *AdminController) Get() {
             Check(err)
             this.Data["Category"] = category
 
-            this.Data["PageTitle"] = "修改分类_文章管理_SEOCMS"
+            this.Data["PageTitle"] = fmt.Sprintf("修改分类_文章管理_%s", SiteName)
             this.TplNames = "admin/edit_category.tpl"
         case "delete":    // 删除分类
             //this.Data["Id"] = this.Ctx.Params[":id"]
@@ -185,6 +187,7 @@ func (this *AdminController) Get() {
 
 func (this *AdminController) Post() {
     this.Layout = "layout_admin.tpl"
+    this.Data["SiteName"] = SiteName    // 网站名称
 
     //// 检测用户是否登录
     //account := this.GetSession("account")

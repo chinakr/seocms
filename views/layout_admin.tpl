@@ -20,7 +20,7 @@
                 <li><a href="/user/logout">退出</a></li>
             </ul>
             <div class="navbar-inner">
-                <a class="brand" href="/admin">SEOCMS后台管理</a>
+                <a class="brand" href="/admin">{{.SiteName}}后台管理</a>
             </div>
         </div><!-- End .navbar -->
     </div><!-- End .header -->

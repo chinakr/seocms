@@ -13,13 +13,15 @@ type ListController struct {
 }
 
 const (
-    SiteName = "SEOCMS"    // 网站名称
+    //SiteName = "SEOCMS"    // 网站名称
     ItemsPerPage = 10    // 列表页上每页显示文章数量
 )
 
+var SiteName = beego.AppConfig.String("appname")    // 网站名称
+
 func (this *ListController) Get() {
     this.Layout = "layout.tpl"
-    this.Data["SiteName"] = SiteName
+    this.Data["SiteName"] = SiteName    // 网站名称
     categoryNameEn := this.Ctx.Params[":category"]
     //Debug("Current category is `%s`.", categoryNameEn)
 

@@ -94,7 +94,17 @@ func (this *ListController) Get() {
         this.Data["Paginator"] = paginator
 
         // 设置页面标题
-        this.Data["PageTitle"] = fmt.Sprintf("%s相关文章_%s", category.Name, beego.AppConfig.String("appname"))
+        if category.Alias != "" {
+            this.Data["PageTitle"] = fmt.Sprintf("%s相关文章_%s | %s", category.Name, beego.AppConfig.String("appname"), category.Alias)
+        } else {
+            this.Data["PageTitle"] = fmt.Sprintf("%s相关文章_%s", category.Name, beego.AppConfig.String("appname"))
+        }
+
+        // 设置页面描述
+        this.Data["PageDescription"] = category.Description
+
+        // 设置页面关键字
+        this.Data["PageKeywords"] = category.Alias
 
         // 设置边栏
         this.Data["Sidebar"] = GetSidebar("category", category.Id)

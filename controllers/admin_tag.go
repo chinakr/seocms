@@ -41,6 +41,32 @@ func (this *AdminTagController) Get() {
 func (this *AdminTagController) Post() {
     this.CheckLogin()    // 检查用户是否登录
     this.Layout = "layout_admin.tpl"    // 页面模板布局文件
+    id := this.Ctx.Params[":id"]    // 标签ID
+
+    // 获得当前标签
+    orm = InitDb()
+    tag := Tag{}
+    err = orm.Where("id=?", id).Find(&tag)
+    Check(err)
+
+    // 获得表单数据
+    tag.Name = this.Input().Get("name")
+    tag.NameEn = this.Input().Get("name_en")
+    tag.Description = this.Input().Get("description")
+    tag.Alias = this.Input().Get("alias")
+
+    // 检查标签名称是否为空
+    if tag.Name == "" {
+        this.Data["Message"] = "标签名称不能为空。"
+        this.Data["Tag"] = tag
+        this.TplNames = "admin/edit_tag.tpl"
+        return
+    }
+
+    err = orm.Save(&tag)
+    Check(err)
+
+    this.Ctx.Redirect(302, "/tag/")
 }
 
 // 检测用户是否登录

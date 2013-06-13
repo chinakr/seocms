@@ -93,6 +93,7 @@ func Breadcrumb(channel, page string) (breadcrumb string) {
         "分类管理": "/category/list",
         "标签管理": "/tag/",
         "用户管理": "/user/",
+        "友链管理": "/link/",
     }
 
     // Bootstrap面包屑HTML模板

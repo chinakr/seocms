@@ -13,6 +13,10 @@ func main() {
     beego.Router("/:object(category)/:action(list|add)", &controllers.AdminController{})    // 显示分类列表、添加分类
     beego.Router("/:object(category)/:action(edit|delete)/:id([0-9]+)", &controllers.AdminController{})    // 编辑分类、删除分类
 
+    // 管理后台：标签管理
+    beego.Router("/tag", &controllers.AdminTagController{})    // 标签列表
+    beego.Router("/:object(tag)/:action(edit)/:id([0-9]+)", &controllers.AdminTagController{})    // 编辑标签
+
     // 用户管理
     beego.Router("/user", &controllers.UserController{})    // 用户列表；如果写成`/user/`无法匹配到
     beego.Router("/user/:action(add)", &controllers.UserController{})    // 添加用户

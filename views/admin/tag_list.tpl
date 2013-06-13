@@ -11,3 +11,8 @@
     {{end}}
 </tbody>
 </table><!-- .category-list -->
+<div class="pagination">
+    <ul>
+        {{str2html .Paginator}}
+    </ul>
+</div><!-- End .pagination -->

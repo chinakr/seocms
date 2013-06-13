@@ -21,11 +21,31 @@ func (this *AdminTagController) Get() {
     switch action {
     case "":    // 标签列表
         this.Data["PageTitle"] = fmt.Sprintf("标签列表_标签管理_%s", SiteName)    // 页面标题
-        tags := []Tag{}
+
+        allTags := []Tag{}
         orm = InitDb()
-        err = orm.OrderBy("name").FindAll(&tags)
+        err = orm.FindAll(&allTags)
+        Check(err)
+        total := len(allTags)    // 标签总数
+
+        // 获得当前页码
+        pagenumInt64, err := this.GetInt("page")
+        pagenum := int(pagenumInt64)
+        if err != nil {
+            pagenum = 1
+        }
+
+        start := (pagenum - 1) * ItemsPerPage    // 起始标签序号
+
+        // 获得当前页标签列表
+        tags := []Tag{}
+        err = orm.OrderBy("name").Limit(ItemsPerPage, start).FindAll(&tags)
         Check(err)
         this.Data["Tags"] = tags    // 标签列表
+
+        paginator := GetPaginator(total, ItemsPerPage, pagenum)
+        this.Data["Paginator"] = paginator    // 分页导航HTML代码
+
         this.TplNames = "admin/tag_list.tpl"    // 页面模板文件
     case "edit":    // 修改标签
         this.Data["PageTitle"] = fmt.Sprintf("修改标签_标签管理_%s", SiteName)    // 页面标题

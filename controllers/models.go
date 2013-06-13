@@ -91,6 +91,7 @@ func Breadcrumb(channel, page string) (breadcrumb string) {
     channels := map[string]string{
         "文章管理": "/article/list",
         "分类管理": "/category/list",
+        "标签管理": "/tag/",
         "用户管理": "/user/",
     }
 

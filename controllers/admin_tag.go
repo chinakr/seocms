@@ -29,6 +29,11 @@ func (this *AdminTagController) Get() {
         this.TplNames = "admin/tag_list.tpl"    // 页面模板文件
     case "edit":    // 修改标签
         this.Data["PageTitle"] = fmt.Sprintf("修改标签_标签管理_%s", SiteName)    // 页面标题
+        id := this.Ctx.Params[":id"]    // 标签ID
+        tag := Tag{}
+        err = orm.Where("id=?", id).Find(&tag)
+        Check(err)
+        this.Data["Tag"] = tag    // 当前标签
         this.TplNames = "admin/edit_tag.tpl"    // 页面模板文件
     }
 }

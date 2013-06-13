@@ -20,3 +20,7 @@ Build and start:
 Visit <http://localhost:8056/> for article surfing.
 
 Visit <http://localhost:8056/admin/> for article and category administration.
+
+## DEMO
+
+[学车网](http://xueche.haijia.net.cn/)

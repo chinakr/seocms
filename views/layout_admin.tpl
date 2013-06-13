@@ -37,6 +37,9 @@
                         <li class="add-category"><a href="/category/add">添加分类</a></li>
                         <li class="nav-header">标签管理</li>
                         <li class="tag-list"><a href="/tag/">标签列表</a></li>
+                        <li class="nav-header">友链管理</li>
+                        <li class="link-list"><a href="/link/">友链列表</a></li>
+                        <li class="add-link"><a href="/link/add">添加友链</a></li>
                         <li class="nav-header">用户管理</li>
                         <li class="user-list"><a href="/user/">用户列表</a></li>
                         <li class="add-user"><a href="/user/add">添加用户</a></li>

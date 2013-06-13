@@ -17,6 +17,11 @@ func main() {
     beego.Router("/tag", &controllers.AdminTagController{})    // 标签列表
     beego.Router("/tag/:action(edit)/:id([0-9]+)", &controllers.AdminTagController{})    // 编辑标签
 
+    // 管理后台：友情链接管理
+    beego.Router("/link", &controllers.AdminLinkController{})    // 友情链接列表
+    beego.Router("/link/:action(add)", &controllers.AdminLinkController{})    // 添加友情链接
+    beego.Router("/link/:action(edit|delete)/:id([0-9]+)", &controllers.AdminLinkController{})    // 编辑友情链接、删除友情链接
+
     // 用户管理
     beego.Router("/user", &controllers.UserController{})    // 用户列表；如果写成`/user/`无法匹配到
     beego.Router("/user/:action(add)", &controllers.UserController{})    // 添加用户

@@ -71,8 +71,20 @@ func (this *TagListController) Get() {
     // 获取分类列表，用于导航栏
     this.Data["Categories"] = GetCategories()
 
+    keywords := tag.Alias
+
     // 设置页面标题
-    this.Data["PageTitle"] = fmt.Sprintf("%s相关文章_%s", tag.Name, beego.AppConfig.String("appname"))
+    if keywords != "" {
+        this.Data["PageTitle"] = fmt.Sprintf("%s相关文章_%s | %s", tag.Name, beego.AppConfig.String("appname"), keywords)
+    } else {
+        this.Data["PageTitle"] = fmt.Sprintf("%s相关文章_%s", tag.Name, beego.AppConfig.String("appname"))
+    }
+
+    // 设置页面描述
+    this.Data["PageDescription"] = tag.Description
+
+    // 设置页面关键字
+    this.Data["PageKeywords"] = keywords
 
     // 设置边栏
     this.Data["Sidebar"] = GetSidebar("tag", tag.Id)

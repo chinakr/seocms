@@ -48,13 +48,37 @@ func (this *AdminController) Get() {
     if object == "article" {
         switch action {
         case "list":
-            this.Data["PageTitle"] = fmt.Sprintf("文章列表_文章管理_%s", SiteName)
-            articles := []Article{}
+            this.Data["PageTitle"] = fmt.Sprintf("文章列表_文章管理_%s", SiteName)    // 页面标题
+
+            // 获得文章总数
+            allArticles := []Article{}
             orm = InitDb()
-            err = orm.OrderBy("-pubdate").FindAll(&articles)
+            err = orm.OrderBy("-pubdate").FindAll(&allArticles)
+            Check(err)
+            total := len(allArticles)
+
+            // 获得当前页码
+            pagenumInt64, err := this.GetInt("page")
+            pagenum := int(pagenumInt64)
+            if err != nil {
+                pagenum = 1
+            }
+
+            // 获得起始文章序号
+            start := (pagenum - 1) * ItemsPerPage
+
+            // 获得当前页文章列表
+            articles := []Article{}
+            err = orm.OrderBy("-pubdate").Limit(ItemsPerPage, start).FindAll(&articles)
             Check(err)
             this.Data["Articles"] = articles
-            this.TplNames = "admin/article_list.tpl"
+
+            // 获得分页导航HTML代码
+            paginator := GetPaginator(total, ItemsPerPage, pagenum)
+            this.Data["Paginator"] = paginator
+
+
+            this.TplNames = "admin/article_list.tpl"    // 页面模板文件
         case "add":
             this.Data["PageTitle"] = fmt.Sprintf("添加文章_文章管理_%s", SiteName)
 

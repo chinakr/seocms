@@ -38,8 +38,7 @@ func (this *ArticleController) Get() {
     Check(err)
     this.Data["Article"] = article
 
-    // 设置页面标题、页面描述
-    this.Data["PageTitle"] = fmt.Sprintf("%s_%s_%s", article.Title, category.Name, beego.AppConfig.String("appname"))
+    // 设置页面描述
     this.Data["PageDescription"] = article.Abstract
 
     // 设置页面关键字
@@ -49,6 +48,9 @@ func (this *ArticleController) Get() {
     } else {
         this.Data["PageKeywords"] = category.Name + ", " + tags
     }
+
+    // 设置页面标题
+    this.Data["PageTitle"] = fmt.Sprintf("%s_%s_%s | %s", article.Title, category.Name, beego.AppConfig.String("appname"), this.Data["PageKeywords"])
 
     // 设置边栏
     this.Data["Sidebar"] = GetSidebar("article", article.Id)

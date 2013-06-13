@@ -15,7 +15,7 @@ func main() {
 
     // 管理后台：标签管理
     beego.Router("/tag", &controllers.AdminTagController{})    // 标签列表
-    beego.Router("/:object(tag)/:action(edit)/:id([0-9]+)", &controllers.AdminTagController{})    // 编辑标签
+    beego.Router("/tag/:action(edit)/:id([0-9]+)", &controllers.AdminTagController{})    // 编辑标签
 
     // 用户管理
     beego.Router("/user", &controllers.UserController{})    // 用户列表；如果写成`/user/`无法匹配到

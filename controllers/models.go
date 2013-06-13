@@ -191,10 +191,19 @@ func FindTagsText(articleId int) (tags string) {
 // 根据文章总数、每页文章数、当前页码，生成Bootstrap格式的分页导航HTML代码
 func GetPaginator(total, itemsPerPage, pagenum int) (paginator string) {
     //return `<li><a href="#">test</a></li>`
-    maxPagenum := total / itemsPerPage + 1    // 总页数
+
+    // 获得总页数
+    var maxPagenum int
+    if total / itemsPerPage * itemsPerPage < total {
+        maxPagenum = total / itemsPerPage + 1
+    } else {
+        maxPagenum = total / itemsPerPage
+    }
+
     if pagenum > maxPagenum {    // 如果当前页码不合法，那么返回空字符串
         return ""
     }
+
     if maxPagenum == 1 {    // 如果一共只有1页，那么直接返回分页导航代码
         return `<li class="disabled"><a href="#">上一页</a></li>
 <li class="active"><a href="#">第1页，共1页</a></li>

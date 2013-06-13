@@ -61,8 +61,21 @@ func (this *ListController) Get() {
         paginator := GetPaginator(total, ItemsPerPage, pagenum)
         this.Data["Paginator"] = paginator
 
+        description := beego.AppConfig.String("description")
+        keywords := beego.AppConfig.String("keywords")
+
         // 设置页面标题
-        this.Data["PageTitle"] = beego.AppConfig.String("appname")
+        if keywords != "" {
+            this.Data["PageTitle"] = fmt.Sprintf("%s | %s", beego.AppConfig.String("appname"), keywords)
+        } else {
+            this.Data["PageTitle"] = beego.AppConfig.String("appname")
+        }
+
+        // 设置页面描述
+        this.Data["PageDescription"] = description
+
+        // 设置页面关键字
+        this.Data["PageKeywords"] = keywords
 
         // 设置边栏
         this.Data["Sidebar"] = GetSidebar("home", 0)

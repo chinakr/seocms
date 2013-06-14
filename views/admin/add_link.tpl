@@ -10,7 +10,7 @@
     <div class="control-group">
         <label class="control-label" for="name">网站名称</label>
         <div class="controls">
-            <input type="text" id="title" name="name" placeholder="请输入网站名称" value="{{.Name}}" />
+            <input type="text" id="name" name="name" placeholder="请输入网站名称" value="{{.Name}}" />
             (必填)
         </div>
     </div><!-- End .control-group -->

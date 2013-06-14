@@ -16,15 +16,20 @@ type AdminLinkController struct {
 func (this *AdminLinkController) Get() {
     this.CheckLogin()    // 检查用户是否登录
     this.Layout = "layout_admin.tpl"    // 页面模板布局文件
-    action := this.Ctx.Params[":action"]    // 标签列表、添加标签、修改标签或删除标签
+    action := this.Ctx.Params[":action"]    // 友情链接列表、添加友情链接、修改友情链接或删除友情链接
     switch action {
-    case "":    // 标签列表
+    case "":    // 友情链接列表
+        links := []Link{}
+        orm = InitDb()
+        err = orm.OrderBy("name").FindAll(&links)
+        Check(err)
+        this.Data["Links"] = links    // 友情链接列表
         this.TplNames = "admin/link_list.tpl"    // 页面模板文件
-    case "add":    // 添加标签
+    case "add":    // 添加友情链接
         this.TplNames = "admin/add_link.tpl"    // 页面模板文件
-    case "edit":    // 修改标签
+    case "edit":    // 修改友情链接
         this.TplNames = "admin/edit_link.tpl"    // 页面模板文件
-    case "delete":    // 删除标签
+    case "delete":    // 删除友情链接
         this.TplNames = "admin/delete_link.tpl"    // 页面模板文件
     }
 }
@@ -32,11 +37,26 @@ func (this *AdminLinkController) Get() {
 func (this *AdminLinkController) Post() {
     this.CheckLogin()    // 检查用户是否登录
     this.Layout = "layout_admin.tpl"    // 页面模板布局文件
-    action := this.Ctx.Params[":action"]    // 添加标签或修改标签
+    action := this.Ctx.Params[":action"]    // 添加友情链接或修改友情链接
     switch action {
-    case "add":    // 添加标签
-        //
-    case "edit":    // 修改标签
+    case "add":    // 添加友情链接
+        // 获取表单数据
+        name := this.Input().Get("name")
+        url := this.Input().Get("url")
+        description := this.Input().Get("description")
+
+        // 保存友情链接
+        link := Link{}
+        link.Name = name
+        link.Url = url
+        link.Description = description
+        orm = InitDb()
+        err = orm.Save(&link)
+        Check(err)
+
+        // 跳转到友情链接列表页
+        this.Ctx.Redirect(302, "/link/")
+    case "edit":    // 修改友情链接
         //
     }
 }

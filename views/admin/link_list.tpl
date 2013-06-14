@@ -6,7 +6,7 @@
     <tr><th>网站名称</th><th>URL</th><th>管理</th></tr>
 </thead>
 <tbody>
-    {{range .Tags}}
+    {{range .Links}}
     <tr><td><a title="{{.Description}}">{{.Name}}</a></td><td><a href="{{.Url}}" target="_blank">{{.Url}}</a></td><td><span class="action"><a href="/link/edit/{{.Id}}">修改</a></span><span class="action"><a href="/link/delete/{{.Id}}">删除</a></span></td></tr>
     {{end}}
 </tbody>

@@ -49,6 +49,13 @@ type ArticleTags struct {    // 文章-标签对应关系
     Tag int    // 标签ID
 }
 
+type Link struct {    // 友情链接
+    Id int    // 友情链接ID
+    Name string    // 网站名称
+    Url string    // 友情链接URL
+    Description string    // 备注
+}
+
 type User struct {    // 用户
     Id int    // 用户ID
     Email string    // 用户Email

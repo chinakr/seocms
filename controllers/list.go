@@ -44,6 +44,7 @@ func (this *ListController) Get() {
     start := (pagenum -1) * ItemsPerPage
 
     if categoryNameEn == "" {    // 首页
+        this.Layout = "layout_index.tpl"
         // 获取文章总数
         orm = InitDb()
         allArticles := []Article{}
@@ -79,6 +80,14 @@ func (this *ListController) Get() {
 
         // 设置边栏
         this.Data["Sidebar"] = GetSidebar("home", 0)
+
+        // 设置首页head
+        site := Site{}
+        orm = InitDb()
+        err = orm.Where("name=?", "head").Find(&site)
+        if err == nil {
+            this.Data["Head"] = site.Content
+        }
 
         this.TplNames = "index.tpl"
     } else {    // 分类列表页

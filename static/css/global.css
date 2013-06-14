@@ -11,6 +11,12 @@
     width: 80%;
 }
 
+/* 设置管理后台首页head编辑的文本区域的样式(加宽、加高) */
+.edit-head textarea {
+    width: 90%;
+    height: 300px;
+}
+
 /* 设置表单的文本输入框宽度 */
 .container .content .input-xxlarge {
     width: 80%;

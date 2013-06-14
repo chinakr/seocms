@@ -66,6 +66,12 @@ type User struct {    // 用户
     LastLogin time.Time    // 用户最后登录时间
 }
 
+type Site struct {    // 网站设置
+    Id int    // 参数ID
+    Name string    // 参数名称
+    Content string    // 参数值
+}
+
 type SidebarHome struct {    // 首页边栏
     Tags []Tag    // 标签列表
     Links []Link    // 友情链接列表
@@ -150,6 +156,7 @@ func InitDb() (orm beedb.Model) {
 func Breadcrumb(channel, page string) (breadcrumb string) {
     // 频道列表：频道名称 -> 频道URL
     channels := map[string]string{
+        "网站管理": "/site/head",
         "文章管理": "/article/list",
         "分类管理": "/category/list",
         "标签管理": "/tag/",

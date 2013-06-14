@@ -6,6 +6,9 @@ import (
 )
 
 func main() {
+    // 管理后台：网站管理
+    beego.Router("/site/:object(head)", &controllers.AdminSiteController{})    // 首页head管理
+
     // 管理后台：文章、分类管理
     beego.Router("/admin", &controllers.AdminController{})    // 管理后台后页；如果写成`/admin/`无法匹配到
     beego.Router("/:object(article)/:action(list|add)", &controllers.AdminController{})    // 显示文章列表、添加文章

@@ -29,6 +29,8 @@
             <div class="sidebar span2">
                 <div class="well">
                     <ul class="nav nav-list">
+                        <li class="nav-header">网站管理</li>
+                        <li class="edit-head"><a href="/site/head">首页head</a></li>
                         <li class="nav-header">文章管理</li>
                         <li class="article-list"><a href="/article/list">文章列表</a></li>
                         <li class="add-article"><a href="/article/add">添加文章</a></li>

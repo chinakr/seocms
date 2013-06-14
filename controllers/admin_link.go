@@ -36,7 +36,18 @@ func (this *AdminLinkController) Get() {
         this.Data["Link"] = link    // 当前友情链接
         this.TplNames = "admin/edit_link.tpl"    // 页面模板文件
     case "delete":    // 删除友情链接
-        this.TplNames = "admin/delete_link.tpl"    // 页面模板文件
+        id :=  this.Ctx.Params[":id"]    // 友情链接ID
+
+        // 获得当前友情链接
+        orm = InitDb()
+        link := Link{}
+        err = orm.Where("id=?", id).Find(&link)
+        Check(err)
+
+        orm.Delete(&link)    // 删除友情链接
+
+        // 跳转到友情链接列表页
+        this.Ctx.Redirect(302, "/link/")
     }
 }
 

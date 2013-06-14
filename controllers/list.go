@@ -87,6 +87,8 @@ func (this *ListController) Get() {
         err = orm.Where("name=?", "head").Find(&site)
         if err == nil {
             this.Data["Head"] = site.Content
+        } else {
+            this.Data["Head"] = ""
         }
 
         this.TplNames = "index.tpl"

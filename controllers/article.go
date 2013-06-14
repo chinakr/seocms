@@ -13,6 +13,8 @@ func (this *ArticleController) Get() {
     // 设置Template布局文件
     this.Layout = "layout_article.tpl"
 
+    this.Data["Body"] = GetBody()    // 设置通用body，可以是统计代码
+
     // 设置网站名称
     this.Data["SiteName"] = SiteName
 

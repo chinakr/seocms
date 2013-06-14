@@ -6,13 +6,21 @@
     padding-top: 10px;
 }
 
+/* CNZZ统计图表居中对齐 */
+body {
+    text-align: center;
+}
+body .content {
+    text-align: left;
+}
+
 /* 设置表单的文本区域的宽度 */
 .container .content textarea {
     width: 80%;
 }
 
-/* 设置管理后台首页head编辑的文本区域的样式(加宽、加高) */
-.edit-head textarea {
+/* 设置管理后台首页head编辑、通用body编辑的文本区域的样式(加宽、加高) */
+.edit-head textarea, .edit-body textarea {
     width: 90%;
     height: 300px;
 }

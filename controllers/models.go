@@ -513,3 +513,16 @@ func CheckLogin(this *AdminController) (flag bool) {
     }
     return true
 }
+
+// 返回管理后台设置的通用body代码，可能是统计代码等
+func GetBody() (body string) {
+    site := Site{}
+    orm = InitDb()
+    err = orm.Where("name=?", "body").Find(&site)
+    if err == nil {
+        body = site.Content
+    } else {
+        body = ""
+    }
+    return
+}

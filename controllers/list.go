@@ -22,6 +22,7 @@ var SiteName = beego.AppConfig.String("appname")    // 网站名称
 func (this *ListController) Get() {
     this.Layout = "layout.tpl"
     this.Data["SiteName"] = SiteName    // 网站名称
+    this.Data["Body"] = GetBody()    // 设置通用body，可以是统计代码
     categoryNameEn := this.Ctx.Params[":category"]
     //Debug("Current category is `%s`.", categoryNameEn)
 

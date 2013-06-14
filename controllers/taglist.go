@@ -13,6 +13,7 @@ type TagListController struct {
 func (this *TagListController) Get() {
     this.Layout = "layout.tpl"
     this.Data["SiteName"] = SiteName
+    this.Data["Body"] = GetBody()    // 设置通用body，可以是统计代码
 
     tagId := this.Ctx.Params[":tagid"]
     Debug("Current tag id is `%s`.", tagId)

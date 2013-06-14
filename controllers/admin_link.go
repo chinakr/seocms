@@ -28,6 +28,12 @@ func (this *AdminLinkController) Get() {
     case "add":    // 添加友情链接
         this.TplNames = "admin/add_link.tpl"    // 页面模板文件
     case "edit":    // 修改友情链接
+        id := this.Ctx.Params[":id"]    // 友情链接ID
+        link := Link{}
+        orm = InitDb()
+        err = orm.Where("id=?", id).Find(&link)
+        Check(err)
+        this.Data["Link"] = link    // 当前友情链接
         this.TplNames = "admin/edit_link.tpl"    // 页面模板文件
     case "delete":    // 删除友情链接
         this.TplNames = "admin/delete_link.tpl"    // 页面模板文件

@@ -63,7 +63,28 @@ func (this *AdminLinkController) Post() {
         // 跳转到友情链接列表页
         this.Ctx.Redirect(302, "/link/")
     case "edit":    // 修改友情链接
-        //
+        id := this.Ctx.Params[":id"]    // 友情链接ID
+
+        // 获得当前友情链接
+        link := Link{}
+        orm = InitDb()
+        err = orm.Where("id=?", id).Find(&link)
+        Check(err)
+
+        // 获取表单数据
+        name := this.Input().Get("name")
+        url := this.Input().Get("url")
+        description := this.Input().Get("description")
+
+        // 保存友情链接
+        link.Name = name
+        link.Url = url
+        link.Description = description
+        err = orm.Save(&link)
+        Check(err)
+
+        // 跳转到友情链接列表页
+        this.Ctx.Redirect(302, "/link/")
     }
 }
 

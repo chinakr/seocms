@@ -62,7 +62,7 @@ func (this *TagListController) Get() {
         end = start + ItemsPerPage
     }
     articles := allArticles[start:end]
-    this.Data["Articles"] = articles
+    this.Data["Articles"] = SortArticle(articles)    // 文章按日期和ID排序
 
     // 获取分页导航HTML代码
     paginator := GetPaginator(total, ItemsPerPage, pagenum)

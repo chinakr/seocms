@@ -9,6 +9,7 @@ import (
     "fmt"
     "html/template"
     "io"
+    "sort"
     "strings"
     "time"
 )
@@ -73,6 +74,59 @@ type SidebarTag struct {    // 标签列表页边栏
 
 type SidebarArticle struct {    // 文章内容页边栏
     Articles []Article
+}
+
+type  lessFunc func(p1, p2 *Article) bool
+
+type multiSorter struct {
+    articles []Article
+    less []lessFunc
+}
+
+func (ms *multiSorter) Sort(articles []Article) {
+    sort.Sort(ms)
+}
+
+func OrderedBy(articles []Article, less ...lessFunc) *multiSorter {
+    return &multiSorter{
+        articles: articles,
+        less: less,
+    }
+}
+
+func (ms *multiSorter) Len() int {
+    return len(ms.articles)
+}
+
+func (ms *multiSorter) Swap(i, j int) {
+    ms.articles[i], ms.articles[j] = ms.articles[j], ms.articles[i]
+}
+
+func (ms *multiSorter) Less(i, j int) bool {
+    p, q := &ms.articles[i], &ms.articles[j]
+    var k int
+    for k = 0; k < len(ms.less) - 1; k++ {
+        less := ms.less[k]
+        switch {
+        case less(p, q):
+            return true
+        case less(q, p):
+            return false
+        }
+    }
+    return ms.less[k](p, q)
+}
+
+// 文章列表按照日期和ID排序
+func SortArticle(articles []Article) (sortedArticles []Article) {
+    pubdate := func(c1, c2 *Article) bool {
+        return c1.Pubdate.After(c2.Pubdate)
+    }
+    id := func(c1, c2 *Article) bool {
+        return c1.Id > c2.Id
+    }
+    sort.Sort(OrderedBy(articles, pubdate, id))
+    return articles
 }
 
 func InitDb() (orm beedb.Model) {

@@ -53,7 +53,7 @@ func (this *ListController) Get() {
 
         // 获取当前页的文章列表
         articles := []Article{}
-        err = orm.OrderBy("-pubdate").Limit(ItemsPerPage, start).FindAll(&articles)
+        err = orm.OrderBy("-pubdate").OrderBy("-id").Limit(ItemsPerPage, start).FindAll(&articles)
         Check(err)
         this.Data["Articles"] = articles
 
@@ -98,7 +98,7 @@ func (this *ListController) Get() {
 
         // 获取当前分类当前页的文章列表
         articles := []Article{}
-        err = orm.Where("category=?", category.Id).OrderBy("-pubdate").Limit(ItemsPerPage, start).FindAll(&articles)
+        err = orm.Where("category=?", category.Id).OrderBy("-pubdate").OrderBy("-id").Limit(ItemsPerPage, start).FindAll(&articles)
         Check(err)
         this.Data["Articles"] = articles
 

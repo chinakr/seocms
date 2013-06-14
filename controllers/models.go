@@ -67,8 +67,8 @@ type User struct {    // 用户
 }
 
 type SidebarHome struct {    // 首页边栏
-    Tags []Tag
-    //FriendLinks []FriendLink
+    Tags []Tag    // 标签列表
+    Links []Link    // 友情链接列表
 }
 
 type SidebarCategory struct {    // 分类列表页边栏
@@ -320,12 +320,19 @@ func GetSidebarHome() (sidebar string) {
     //err = orm.FindAll(&tags)
     Check(err)
 
+    // 获得所有友情链接
+    orm = InitDb()
+    links := []Link{}
+    err = orm.OrderBy("id").FindAll(&links)
+    Check(err)
+
     // 渲染边栏模板文件
     t, err := template.ParseFiles("views/sidebar.tpl")
     Check(err)
     var content bytes.Buffer
     sidebarHome := SidebarHome{
         Tags: tags,
+        Links: links,
     }
     err = t.Execute(&content, sidebarHome)
     Check(err)

@@ -10,7 +10,9 @@
     <div class="friend-links">
         <h2>友情链接</h2>
         <ul>
-            <li>友情链接1</li>
+            {{range .Links}}
+            <li><a href="{{.Url}}" target="_blank">{{.Name}}</a></li>
+            {{end}}
         </ul>
     </div><!-- End .friend-links -->
 </div><!-- End .sidebar -->

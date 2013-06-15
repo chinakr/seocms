@@ -39,6 +39,9 @@ func main() {
     beego.Router("/:category(.+)/", &controllers.ListController{})    // 分类列表页
     beego.Router("/:category(.+)/:id([0-9]+)", &controllers.ArticleController{})    // 文章内容页
 
+    // 文章RSS feed
+    beego.Router("/rss", &controllers.RssController{})
+
     // 模板函数
     beego.AddFuncMap("breadcrumb", controllers.Breadcrumb)    // 根据管理后台的频道名称、页面名称，返回面包屑
     beego.AddFuncMap("alert", controllers.Alert)    // 返回Bootstrap格式的提示信息HTML代码

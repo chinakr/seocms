@@ -5,6 +5,7 @@
 <title>{{.PageTitle}}</title>
 <meta name="keywords" content="{{.PageKeywords}}" />
 <meta name="description" content="{{.PageDescription}}" />
+<link href="/rss/" rel="alternate" title="文章订阅" type="application/rss+xml" />
 <link rel="stylesheet" href="http://lib.sinaapp.com/js/bootstrap/latest/css/bootstrap.min.css" />
 <script src="http://lib.sinaapp.com/js/jquery/1.9.1/jquery-1.9.1.min.js"></script>
 <script src="http://lib.sinaapp.com/js/bootstrap/latest/js/bootstrap.min.js"></script>

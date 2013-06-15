@@ -4,6 +4,7 @@ import (
     "bytes"
     "crypto/sha1"
     "github.com/astaxie/beedb"
+    "github.com/astaxie/beego"
     _ "github.com/ziutek/mymysql/godrv"
     "database/sql"
     "fmt"
@@ -70,6 +71,23 @@ type Site struct {    // 网站设置
     Id int    // 参数ID
     Name string    // 参数名称
     Content string    // 参数值
+}
+
+type RssChannel struct {    // RSS中的`channel`元素
+    Title string    // channel的名称
+    Link string    // channel对应的网页URL
+    Description string    // channel的描述
+    //Generator string    // 生成channel的应用程序
+    Items []RssItem    // channel中包含的0个或多个`item`元素
+}
+
+type RssItem struct {    // RSS中的`item`元素
+    Title string    // item的名称
+    Link string    // item对应的网页URL
+    Category string    // item所属的分类(文章分类)
+    Description string    // item的描述(使用文章正文)
+    Pubdate time.Time    // item的发布日期
+    Guid string    // item的UID(使用文章ID)
 }
 
 type SidebarHome struct {    // 首页边栏
@@ -524,5 +542,16 @@ func GetBody() (body string) {
     } else {
         body = ""
     }
+    return
+}
+
+// 返回文章对象的完整URL地址(包括域名)
+func GetArticleFullUrl(article Article) (url string) {
+    baseUrl := beego.AppConfig.String("appurl")
+    if string(baseUrl[len(baseUrl)-1]) == "/" {
+        baseUrl = baseUrl[0:len(baseUrl)-1]
+    }
+    categoryNameEn := Id2categoryEn(article.Category)    // 文章所属分类的英文名称
+    url = fmt.Sprintf("%s/%s/%d", baseUrl, categoryNameEn, article.Id)
     return
 }

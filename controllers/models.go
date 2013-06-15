@@ -161,9 +161,9 @@ func SortArticle(articles []Article) (sortedArticles []Article) {
 }
 
 func InitDb() (orm beedb.Model) {
-    database := "seocms"
-    username := "seocms"
-    password := "helloworld"
+    database := beego.AppConfig.String("mysqldb")
+    username := beego.AppConfig.String("mysqluser")
+    password := beego.AppConfig.String("mysqlpass")
     db, err := sql.Open("mymysql", database + "/" + username + "/" + password)
     Check(err)
     orm = beedb.New(db)

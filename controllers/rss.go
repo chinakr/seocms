@@ -25,7 +25,7 @@ func (this *RssController) Get() {
 
     articles := []Article{}
     orm = InitDb()
-    err = orm.OrderBy("-pubdate").OrderBy("-id").Limit(RSS_ITEMS_COUNT).FindAll(&articles)
+    err = orm.OrderBy("-pubdate, -id").Limit(RSS_ITEMS_COUNT).FindAll(&articles)
     Check(err)
 
     for _, article := range(articles) {

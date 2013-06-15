@@ -1,7 +1,8 @@
 package main
 
 import (
-	"seocms/controllers"
+	"./controllers"
+	//"seocms/controllers"
 	"github.com/astaxie/beego"
 )
 

@@ -10,6 +10,7 @@ func main() {
     // 管理后台：网站管理
     beego.Router("/site/:object(head)", &controllers.AdminSiteController{})    // 首页head管理
     beego.Router("/site/:object(body)", &controllers.AdminSiteController{})    // 通用body管理
+    beego.Router("/site/sitemap", &controllers.AdminSiteController{})    // 站点地图列表
 
     // 管理后台：文章、分类管理
     beego.Router("/admin", &controllers.AdminController{})    // 管理后台后页；如果写成`/admin/`无法匹配到
@@ -42,6 +43,9 @@ func main() {
 
     // 文章RSS feed
     beego.Router("/rss", &controllers.RssController{})
+
+    // XML站点地图
+    beego.Router("/sitemap", &controllers.SitemapController{})
 
     // 模板函数
     beego.AddFuncMap("breadcrumb", controllers.Breadcrumb)    // 根据管理后台的频道名称、页面名称，返回面包屑

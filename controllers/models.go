@@ -57,6 +57,11 @@ type Link struct {    // 友情链接
     Description string    // 备注
 }
 
+type SitemapUrl struct {    // 站点地图`urlset`元素中包含的`url`元素
+    Loc string    // 页面URL
+    LastMod time.Time    // 页面最后更新日期
+}
+
 type User struct {    // 用户
     Id int    // 用户ID
     Email string    // 用户Email

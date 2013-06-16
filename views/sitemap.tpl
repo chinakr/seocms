@@ -3,7 +3,6 @@
     {{range .}}
     <url>
         <loc>{{.Loc}}</loc>
-        <lastmod>{{.LastMod}}</lastmod>
     </url>
     {{end}}
 </urlset>

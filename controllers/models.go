@@ -59,7 +59,7 @@ type Link struct {    // 友情链接
 
 type SitemapUrl struct {    // 站点地图`urlset`元素中包含的`url`元素
     Loc string    // 页面URL
-    LastMod time.Time    // 页面最后更新日期
+    //LastMod time.Time    // 页面最后更新日期
 }
 
 type User struct {    // 用户
@@ -277,6 +277,15 @@ func FindTagsText(articleId int) (tags string) {
         tagList = append(tagList, tag.Name)
     }
     tags = strings.Join(tagList, ", ")
+    return
+}
+
+// 获得文章总数
+func GetArticleCount() (total int) {
+    orm = InitDb()
+    allArticles := []Article{}
+    err = orm.FindAll(&allArticles)
+    total = len(allArticles)
     return
 }
 
@@ -547,6 +556,36 @@ func GetBody() (body string) {
     } else {
         body = ""
     }
+    return
+}
+
+// 返回分类列表页的完整URL地址(包括域名)
+func GetCategoryListFullUrl(category Category) (url string) {
+    baseUrl := beego.AppConfig.String("appurl")
+    if string(baseUrl[len(baseUrl)-1]) == "/" {
+        baseUrl = baseUrl[0:len(baseUrl)-1]
+    }
+    url = fmt.Sprintf("%s/%s/", baseUrl, category.NameEn)
+    return
+}
+
+// 返回标签列表页的完整URL地址(包括域名)
+func GetTagListFullUrl(tag Tag) (url string) {
+    baseUrl := beego.AppConfig.String("appurl")
+    if string(baseUrl[len(baseUrl)-1]) == "/" {
+        baseUrl = baseUrl[0:len(baseUrl)-1]
+    }
+    url = fmt.Sprintf("%s/t/%d/", baseUrl, tag.Id)
+    return
+}
+
+// 返回标签云页面的完整URL地址(包括域名)
+func GetTagCloudFullUrl() (url string) {
+    baseUrl := beego.AppConfig.String("appurl")
+    if string(baseUrl[len(baseUrl)-1]) == "/" {
+        baseUrl = baseUrl[0:len(baseUrl)-1]
+    }
+    url = fmt.Sprintf("%s/%s/", baseUrl, "tags")
     return
 }
 

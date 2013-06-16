@@ -42,7 +42,7 @@ func (this *ListController) Get() {
     }
 
     // 计算起始文章序号
-    start := (pagenum -1) * ItemsPerPage
+    start := (pagenum - 1) * ItemsPerPage
 
     if categoryNameEn == "" {    // 首页
         this.Layout = "layout_index.tpl"

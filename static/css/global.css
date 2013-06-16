@@ -25,6 +25,17 @@ body .content {
     height: 300px;
 }
 
+/* 设置管理后台站点地图列表页面的样式 */
+.sitemap h2 {
+    font-weight: normal;
+    font-size: 21px;
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+.sitemap h2.submit {
+    margin-top: 20px;
+}
+
 /* 设置表单的文本输入框宽度 */
 .container .content .input-xxlarge {
     width: 80%;

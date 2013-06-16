@@ -599,3 +599,13 @@ func GetArticleFullUrl(article Article) (url string) {
     url = fmt.Sprintf("%s/%s/%d", baseUrl, categoryNameEn, article.Id)
     return
 }
+
+// 返回站点地图默认页的完整URL地址(包括域名)
+func GetSitemapHomeFullUrl() (url string) {
+    baseUrl := beego.AppConfig.String("appurl")
+    if string(baseUrl[len(baseUrl)-1]) == "/" {
+        baseUrl = baseUrl[0:len(baseUrl)-1]
+    }
+    url = fmt.Sprintf("%s/%s/", baseUrl, "sitemap")
+    return
+}

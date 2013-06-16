@@ -101,7 +101,7 @@ func GetSitemapHome() (urls []SitemapUrl) {
 func GetSitemapPage(pagenum int) (urls []SitemapUrl) {
     //itemsPerPage := 5    // DEBUG: 每页包含的文章内容页URL个数
     itemsPerPage := 1000    // 每页包含的文章内容页URL个数
-    //reserved := 7    // DEBUG: 站点地图默认页包含的文章数量
+    //reserved := 3    // DEBUG: 站点地图默认页包含的文章数量
     reserved := 100    // 站点地图默认页包含的文章数量
 
     total := GetArticleCount()    // 文章总数

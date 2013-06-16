@@ -55,6 +55,28 @@ func (this *AdminSiteController) Get() {
         }
         this.Data["Site"] = site    // 当前通用body
         this.TplNames = "admin/edit_body.tpl"    // 页面模板文件
+    case "sitemap":
+        sitemaps := []string{}
+
+        sitemapHome := GetSitemapHomeFullUrl()    // 站点地图默认页：首页、列表页、最新的100篇文章
+
+        sitemapPage := []string{}    // 站点地图内容页：除最新的100篇文章外的所有文章，从老到新，每页最多1000篇文章
+        pagenum := 1
+        for {
+            urls := GetSitemapPage(pagenum)
+            if len(urls) > 0 {
+                sitemapPage = append(sitemapPage, fmt.Sprintf("%s?page=%d", sitemapHome, pagenum))
+            } else {
+                break
+            }
+            pagenum += 1
+        }
+
+        sitemaps = append(sitemaps, sitemapHome)
+        sitemaps = append(sitemaps, sitemapPage...)
+
+        this.Data["Sitemaps"] = sitemaps
+        this.TplNames = "admin/sitemap_list.tpl"    // 页面模板文件
     }
 }
 

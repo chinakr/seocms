@@ -10,7 +10,7 @@ func main() {
     // 管理后台：网站管理
     beego.Router("/site/:object(head)", &controllers.AdminSiteController{})    // 首页head管理
     beego.Router("/site/:object(body)", &controllers.AdminSiteController{})    // 通用body管理
-    beego.Router("/site/sitemap", &controllers.AdminSiteController{})    // 站点地图列表
+    beego.Router("/site/:object(sitemap)", &controllers.AdminSiteController{})    // 站点地图列表
 
     // 管理后台：文章、分类管理
     beego.Router("/admin", &controllers.AdminController{})    // 管理后台后页；如果写成`/admin/`无法匹配到

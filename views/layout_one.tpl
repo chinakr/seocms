@@ -36,6 +36,5 @@
         {{template "footer.tpl"}}
     </div><!-- End .footer -->
 </div><!-- End .container -->
-{{str2html .Body}}
 </body>
 </html>

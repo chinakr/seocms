@@ -3,6 +3,7 @@ package controllers
 import (
     "fmt"
     "github.com/astaxie/beego"
+    "io/ioutil"
 )
 
 type ArticleController struct {
@@ -39,6 +40,12 @@ func (this *ArticleController) Get() {
     err = orm.Where("id=?", articleId).Find(&article)
     Check(err)
     this.Data["Article"] = article
+
+    // 友言评论
+    b, err := ioutil.ReadFile("views/uy.html")
+    Check(err)
+    uyCode := string(b)
+    this.Data["UY"] = uyCode
 
     // 设置页面描述
     this.Data["PageDescription"] = article.Abstract

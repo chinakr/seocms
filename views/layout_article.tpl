@@ -31,6 +31,9 @@
         <div class="row">
             <div class="main span8">
                 {{.LayoutContent}}
+                <div class="comment">
+                    {{str2html .UY}}
+                </div><!-- End .comment -->
             </div><!-- End .main -->
             <div class="sidebar span4">
                 {{str2html .Sidebar}}

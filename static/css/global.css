@@ -92,9 +92,14 @@ body {
     font-size: 12px;
     line-height: 24px;
 }
+.article-meta p {
+    float: left;
+    margin-right: 15px;
+}
 .article-meta ul {
     list-style: none;
     margin: 0;
+    padding: 0;
 }
 .article-meta li {
     float: left;

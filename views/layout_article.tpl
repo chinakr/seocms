@@ -15,27 +15,29 @@
 <body>
 <div class="container">
     <div class="header">
-        <div class="navbar">
-            <div class="navbar-inner">
-                <a class="brand" href="/">{{.SiteName}}</a>
-                <ul class="nav">
+        <div class="navbar navbar-default" role="navigation">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">{{.SiteName}}</a>
+            </div><!-- End .navbar-header -->
+            <div class="navbar-collapse collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
                     <li class="index"><a href="/">首页</a></li>
                     {{range .Categories}}
                     <li class="{{.NameEn}}"><a href="/{{.NameEn}}/">{{.Name}}</a></li>
                     {{end}}
-                </ul>
-            </div><!-- End .navbar-inner -->
+                </ul><!-- End .nav -->
+            </div><!-- End .navbar-collapse -->
         </div><!-- End .navbar -->
     </div><!-- End .header -->
     <div class="content">
         <div class="row">
-            <div class="main span8">
+            <div class="main col-md-8">
                 {{.LayoutContent}}
                 <div class="comment">
                     {{str2html .UY}}
                 </div><!-- End .comment -->
             </div><!-- End .main -->
-            <div class="sidebar span4">
+            <div class="sidebar col-md-4">
                 {{str2html .Sidebar}}
             </div><!-- End .sidebar -->
         </div><!-- End .row -->

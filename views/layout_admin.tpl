@@ -14,19 +14,19 @@
 <body>
 <div class="container admin">
     <div class="header">
-        <div class="navbar">
-            <ul class="nav pull-right">
+        <div class="navbar navbar-default" role="navigation">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/admin">{{.SiteName}}后台管理</a>
+            </div><!-- End .navbar-header -->
+            <ul class="nav navbar-nav navbar-right">
                 <li class="account"><a>{{.Account}}</a></li>
-                <li><a href="/user/logout">退出</a></li>
-            </ul>
-            <div class="navbar-inner">
-                <a class="brand" href="/admin">{{.SiteName}}后台管理</a>
-            </div>
+                <li><a href="/usr/logout">退出</a></li>
+            </ul><!-- End .navbar-right" -->
         </div><!-- End .navbar -->
     </div><!-- End .header -->
     <div class="content">
         <div class="row">
-            <div class="sidebar span2">
+            <div class="sidebar col-md-2">
                 <div class="well">
                     <ul class="nav nav-list">
                         <li class="nav-header">网站管理</li>
@@ -50,7 +50,7 @@
                     </ul><!-- End .nav -->
                 </div><!-- End .well -->
             </div><!-- End .sidebar -->
-            <div class="main span10">
+            <div class="main col-md-10">
                 {{.LayoutContent}}
             </div><!-- End .main -->
         </div><!-- End .row -->

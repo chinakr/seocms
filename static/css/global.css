@@ -138,6 +138,7 @@ div.admin .sidebar li {
 .sidebar ul {
     list-style-type: none;
     margin: 0;
+    padding: 0;
     text-align: justify;
 }
 .sidebar .recommends ul {
@@ -154,7 +155,6 @@ div.admin .sidebar li {
 }
 .sidebar span.more {
     float: right;
-    line-height: 43px;
     margin-right: 5px;
 }
 

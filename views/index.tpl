@@ -9,8 +9,6 @@
     {{end}}
 </tbody>
 </table>
-<div class="pagination">
-    <ul>
-        {{str2html .Paginator}}
-    </ul>
-</div><!-- End .pagination -->
+<ul class="pagination">
+    {{str2html .Paginator}}
+</ul><!-- End .pagination -->
